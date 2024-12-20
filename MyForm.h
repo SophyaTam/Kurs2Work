@@ -148,28 +148,28 @@ namespace Kurs2Work {
 #pragma endregion
 	private: System::Void Child_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		MyForm1^ obj3 = gcnew MyForm1();
-		obj3->ShowDialog();
+		MyForm1^ obj1 = gcnew MyForm1(this);
+		obj1->ShowDialog();
 	}
 	private: System::Void Detective_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		MyForm1^ obj3 = gcnew MyForm1();
-		obj3->ShowDialog();
+		MyForm1^ obj1 = gcnew MyForm1(this);
+		obj1->ShowDialog();
 	}
 	private: System::Void Comedy_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		MyForm1^ obj3 = gcnew MyForm1();
-		obj3->ShowDialog();
+		MyForm1^ obj1 = gcnew MyForm1(this);
+		obj1->ShowDialog();
 	}
 	private: System::Void MelodramOption_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		MyForm1^ obj3 = gcnew MyForm1();
-		obj3->ShowDialog();
+		MyForm1^ obj1 = gcnew MyForm1(this);
+		obj1->ShowDialog();
 	}
 	private: System::Void Serials_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
-		MyForm1^ obj3 = gcnew MyForm1();
-		obj3->ShowDialog();
+		MyForm1^ obj1 = gcnew MyForm1(this);
+		obj1->ShowDialog();
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
