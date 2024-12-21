@@ -1,5 +1,8 @@
 #pragma once
 #include "MyForm1.h"
+#include "MainMenu1.h" // Включаем только заголовочный файл
+#include <string>
+#include <msclr/marshal_cppstd.h>
 
 namespace Kurs2Work {
 
@@ -9,137 +12,115 @@ namespace Kurs2Work {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Runtime::InteropServices;
 
-	/// <summary>
-	/// Сводка для MyForm
-	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
+	private:
+		MainMenu1* mainMenu; // Используем обычный указатель
+
 	public:
-		MyForm(void)
-		{
+		MyForm() {
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
+			mainMenu = new MainMenu1; // Создаем экземпляр MainMenu1
+			mainMenu->AddOptions(); // Добавляем опции
 		}
 
-	protected:
-		/// <summary>
-		/// Освободить все используемые ресурсы.
-		/// </summary>
-		~MyForm()
-		{
-			if (components)
-			{
-				delete components;
-			}
+		~MyForm() {
+			delete mainMenu; // Освобождаем память
 		}
+
 	private: System::Windows::Forms::Button^ SerialsOption;
-	protected:
-
 	private: System::Windows::Forms::Button^ Child_Option;
 	private: System::Windows::Forms::Button^ Detective_Option;
 	private: System::Windows::Forms::Button^ Comedy_Option;
 	private: System::Windows::Forms::Button^ MelodramOption;
-
-
 	private: System::Windows::Forms::Label^ label1;
-	protected:
+	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ button4;
+	private: System::Windows::Forms::Button^ button5;
+	private: System::Windows::Forms::Label^ label2;
 
 	private:
-		/// <summary>
-		/// Обязательная переменная конструктора.
-		/// </summary>
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
-		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->SerialsOption = (gcnew System::Windows::Forms::Button());
-			this->Child_Option = (gcnew System::Windows::Forms::Button());
-			this->Detective_Option = (gcnew System::Windows::Forms::Button());
-			this->Comedy_Option = (gcnew System::Windows::Forms::Button());
-			this->MelodramOption = (gcnew System::Windows::Forms::Button());
-			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
-			// SerialsOption
+			// button1
 			// 
-			this->SerialsOption->Location = System::Drawing::Point(320, 363);
-			this->SerialsOption->Name = L"SerialsOption";
-			this->SerialsOption->Size = System::Drawing::Size(75, 23);
-			this->SerialsOption->TabIndex = 0;
-			this->SerialsOption->Text = L"Сериалы";
-			this->SerialsOption->UseVisualStyleBackColor = true;
-			this->SerialsOption->Click += gcnew System::EventHandler(this, &MyForm::Serials_Click);
+			this->button1->Location = System::Drawing::Point(314, 63);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->TabIndex = 0;
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::Child_Option_Click);
 			// 
-			// Child_Option
+			// button2
 			// 
-			this->Child_Option->Location = System::Drawing::Point(320, 110);
-			this->Child_Option->Name = L"Child_Option";
-			this->Child_Option->Size = System::Drawing::Size(75, 23);
-			this->Child_Option->TabIndex = 1;
-			this->Child_Option->Text = L"Детское";
-			this->Child_Option->UseVisualStyleBackColor = true;
-			this->Child_Option->Click += gcnew System::EventHandler(this, &MyForm::Child_Option_Click);
+			this->button2->Location = System::Drawing::Point(314, 128);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->TabIndex = 1;
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::Detective_Option_Click);
 			// 
-			// Detective_Option
+			// button3
 			// 
-			this->Detective_Option->Location = System::Drawing::Point(320, 168);
-			this->Detective_Option->Name = L"Detective_Option";
-			this->Detective_Option->Size = System::Drawing::Size(75, 23);
-			this->Detective_Option->TabIndex = 2;
-			this->Detective_Option->Text = L"Детективы";
-			this->Detective_Option->UseVisualStyleBackColor = true;
-			this->Detective_Option->Click += gcnew System::EventHandler(this, &MyForm::Detective_Option_Click);
+			this->button3->Location = System::Drawing::Point(314, 185);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(75, 23);
+			this->button3->TabIndex = 2;
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::Comedy_Option_Click);
 			// 
-			// Comedy_Option
+			// button4
 			// 
-			this->Comedy_Option->Location = System::Drawing::Point(320, 234);
-			this->Comedy_Option->Name = L"Comedy_Option";
-			this->Comedy_Option->Size = System::Drawing::Size(75, 23);
-			this->Comedy_Option->TabIndex = 3;
-			this->Comedy_Option->Text = L"Комедии";
-			this->Comedy_Option->UseVisualStyleBackColor = true;
-			this->Comedy_Option->Click += gcnew System::EventHandler(this, &MyForm::Comedy_Option_Click);
+			this->button4->Location = System::Drawing::Point(314, 246);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(75, 23);
+			this->button4->TabIndex = 3;
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::Melodram_Option_Click);
 			// 
-			// MelodramOption
+			// button5
 			// 
-			this->MelodramOption->Location = System::Drawing::Point(320, 303);
-			this->MelodramOption->Name = L"MelodramOption";
-			this->MelodramOption->Size = System::Drawing::Size(75, 23);
-			this->MelodramOption->TabIndex = 4;
-			this->MelodramOption->Text = L"Мелодрамы";
-			this->MelodramOption->UseVisualStyleBackColor = true;
-			this->MelodramOption->Click += gcnew System::EventHandler(this, &MyForm::MelodramOption_Click);
+			this->button5->Location = System::Drawing::Point(314, 322);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(75, 23);
+			this->button5->TabIndex = 4;
+			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &MyForm::Serials_Option_Click);
 			// 
-			// label1
+			// label2
 			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(276, 52);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(172, 16);
-			this->label1->TabIndex = 5;
-			this->label1->Text = L"Доступные направления:";
+			this->label2->AutoSize = true;
+			this->label2->Location = System::Drawing::Point(336, 24);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(44, 16);
+			this->label2->TabIndex = 5;
+			this->label2->Text = L"label2";
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(738, 436);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->MelodramOption);
-			this->Controls->Add(this->Comedy_Option);
-			this->Controls->Add(this->Detective_Option);
-			this->Controls->Add(this->Child_Option);
-			this->Controls->Add(this->SerialsOption);
+			this->ClientSize = System::Drawing::Size(745, 416);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->button5);
+			this->Controls->Add(this->button4);
+			this->Controls->Add(this->button3);
+			this->Controls->Add(this->button2);
+			this->Controls->Add(this->button1);
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -161,17 +142,39 @@ namespace Kurs2Work {
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
 	}
-	private: System::Void MelodramOption_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void Melodram_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
 	}
-	private: System::Void Serials_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void Serials_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		int n = this->button1->TabIndex + 1; // Убедитесь, что вы используете правильный индекс
+		std::string optionText = mainMenu->AddOptionsInput(n); // Получаем текст опции
+		this->button1->Text = msclr::interop::marshal_as<System::String^>(optionText); // Преобразуем std::string в System::String^
+
+		int n1 = this->button2->TabIndex + 1; // Используем правильный индекс для button2
+		std::string optionText1 = mainMenu->AddOptionsInput(n1); // Получаем текст опции для button2
+		this->button2->Text = msclr::interop::marshal_as<System::String^>(optionText1); // Преобразуем std::string в System::String^
+
+		int n2 = this->button3->TabIndex + 1; // Используем правильный индекс для button3
+		std::string optionText2 = mainMenu->AddOptionsInput(n2); // Получаем текст опции для button3
+		this->button3->Text = msclr::interop::marshal_as<System::String^>(optionText2); // Преобразуем std::string в System::String^
+
+		int n3 = this->button4->TabIndex + 1; // Используем правильный индекс для button4
+		std::string optionText3 = mainMenu->AddOptionsInput(n3); // Получаем текст опции для button4
+		this->button4->Text = msclr::interop::marshal_as<System::String^>(optionText3); // Преобразуем std::string в System::String^
+
+		int n4 = this->button5->TabIndex + 1; // Используем правильный индекс для button5
+		std::string optionText4 = mainMenu->AddOptionsInput(n4); // Получаем текст опции для button5
+		this->button5->Text = msclr::interop::marshal_as<System::String^>(optionText4); // Преобразуем std::string в System::String^
+
+		std::string optionText5 = mainMenu->WelcomeText();
+		this->label2->Text = msclr::interop::marshal_as<System::String^>(optionText5);
 	}
-	};
+};
 }
