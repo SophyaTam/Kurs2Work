@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include <memory> // Для std::unique_ptr
+#include <cstdlib> // For system()
+#include <filesystem> // Для работы с файловой системой
+#include <sstream>
 class Option {
 public:
     virtual std::string GetName() const = 0; // Виртуальный метод для получения имени опции
@@ -37,6 +40,7 @@ public:
 class MainMenu1 {
 private:
     std::vector<std::unique_ptr<Option>> AvailableOptions; // Вектор уникальных указателей на опции
+    std::vector<std::string> videoFiles;
 public:
     void AddOptions();
     std::string AddOptionsInput(int n);

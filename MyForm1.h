@@ -1,4 +1,6 @@
 #pragma once
+#include "Video.h"
+#include <comdef.h>
 
 namespace Kurs2Work {
 
@@ -8,17 +10,20 @@ namespace Kurs2Work {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Runtime::InteropServices;
 
 	/// <summary>
 	/// Сводка для MyForm1
 	/// </summary>
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
+	private: Video* video;
 	public:
 		Form ^obj;
 		MyForm1(void)
 		{
 			InitializeComponent();
+			video = new Video;
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -27,6 +32,7 @@ namespace Kurs2Work {
 		{
 			obj = obj1;
 			InitializeComponent();
+			video = new Video;
 			//
 			//TODO: добавьте код конструктора
 			//
@@ -177,16 +183,26 @@ namespace Kurs2Work {
 
 		}
 #pragma endregion
-	private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
-		try {
-			// Убедитесь, что файл существует по указанному пути
-			axWindowsMediaPlayer2->URL = "C:\\Users\\User\\source\\repos\\Фиксики.mp4"; // Замените на ваш файл
-			axWindowsMediaPlayer2->Ctlcontrols->play();
-		}
-		catch (Exception^ ex) {
-			MessageBox::Show("Ошибка: " + ex->Message);
-		}
+private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
+	std::string videoFile = video->ChooseOption(1); // Вызов функции для получения названия видео
+
+	// Проверяем, что videoFile не пустой
+	if (videoFile.empty()) {
+		MessageBoxA(NULL, "Не удалось получить видеофайл.", "Ошибка", MB_OK);
+		return; // Выходим из функции, если видеофайл не найден
 	}
+
+	System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
+	try {
+		axWindowsMediaPlayer2->URL = managedVideoFile; // Устанавливаем URL
+		axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение
+	}
+	catch (const std::exception& e) {
+		// Обработка исключений
+		std::cerr << "Произошла ошибка: " << e.what() << std::endl; // Исправлено на e.what()
+		MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK); // Добавлено сообщение об ошибке
+	}
+}
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {

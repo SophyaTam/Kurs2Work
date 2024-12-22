@@ -1,4 +1,9 @@
 #include "MainMenu1.h"
+#include <cstdlib> // For system()
+#include <filesystem> // Для работы с файловой системой
+#include <sstream>
+#include <iostream> 
+#include <windows.h> // Для работы с файловой системой в Windows
 
 void MainMenu1::AddOptions() {
     AvailableOptions.push_back(std::make_unique<ChildOption>());
