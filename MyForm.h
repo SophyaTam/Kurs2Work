@@ -1,6 +1,6 @@
-#pragma once
+п»ї#pragma once
 #include "MyForm1.h"
-#include "MainMenu1.h" // Включаем только заголовочный файл
+#include "MainMenu1.h" // Г‚ГЄГ«ГѕГ·Г ГҐГ¬ ГІГ®Г«ГјГЄГ® Г§Г ГЈГ®Г«Г®ГўГ®Г·Г­Г»Г© ГґГ Г©Г«
 #include "Video.h"
 #include <string>
 #include <msclr/marshal_cppstd.h>
@@ -18,21 +18,21 @@ namespace Kurs2Work {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
-		MainMenu1* mainMenu; // Используем обычный указатель
+		MainMenu1* mainMenu; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ Г®ГЎГ»Г·Г­Г»Г© ГіГЄГ Г§Г ГІГҐГ«Гј
 		Video* video;
 
 	public:
 		MyForm() {
 			InitializeComponent();
-			mainMenu = new MainMenu1; // Создаем экземпляр MainMenu1
-			mainMenu->AddOptions(); // Добавляем опции
+			mainMenu = new MainMenu1; // Г‘Г®Г§Г¤Г ГҐГ¬ ГЅГЄГ§ГҐГ¬ГЇГ«ГїГ° MainMenu1
+			mainMenu->AddOptions(); // Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г®ГЇГ¶ГЁГЁ
 			video = new Video;
 			int k;
 			video->ChooseOption(k);
 		}
 
 		~MyForm() {
-			delete mainMenu; // Освобождаем память
+			delete mainMenu; // ГЋГ±ГўГ®ГЎГ®Г¦Г¤Г ГҐГ¬ ГЇГ Г¬ГїГІГј
 			delete video;
 		}
 
@@ -164,28 +164,28 @@ namespace Kurs2Work {
 		video->ChooseOption(5);
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		int n = this->button1->TabIndex + 1; // Убедитесь, что вы используете правильный индекс
-		std::string optionText = mainMenu->AddOptionsInput(n); // Получаем текст опции
-		this->button1->Text = msclr::interop::marshal_as<System::String^>(optionText); // Преобразуем std::string в System::String^
+		int n = this->button1->TabIndex + 1; // Г“ГЎГҐГ¤ГЁГІГҐГ±Гј, Г·ГІГ® ГўГ» ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГІГҐ ГЇГ°Г ГўГЁГ«ГјГ­Г»Г© ГЁГ­Г¤ГҐГЄГ±
+		std::string optionText = mainMenu->AddOptionsInput(n); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГІГҐГЄГ±ГІ Г®ГЇГ¶ГЁГЁ
+		this->button1->Text = msclr::interop::marshal_as<System::String^>(optionText); // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ std::string Гў System::String^
 
-		int n1 = this->button2->TabIndex + 1; // Используем правильный индекс для button2
-		std::string optionText1 = mainMenu->AddOptionsInput(n1); // Получаем текст опции для button2
-		this->button2->Text = msclr::interop::marshal_as<System::String^>(optionText1); // Преобразуем std::string в System::String^
+		int n1 = this->button2->TabIndex + 1; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ ГЇГ°Г ГўГЁГ«ГјГ­Г»Г© ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї button2
+		std::string optionText1 = mainMenu->AddOptionsInput(n1); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГІГҐГЄГ±ГІ Г®ГЇГ¶ГЁГЁ Г¤Г«Гї button2
+		this->button2->Text = msclr::interop::marshal_as<System::String^>(optionText1); // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ std::string Гў System::String^
 
-		int n2 = this->button3->TabIndex + 1; // Используем правильный индекс для button3
-		std::string optionText2 = mainMenu->AddOptionsInput(n2); // Получаем текст опции для button3
-		this->button3->Text = msclr::interop::marshal_as<System::String^>(optionText2); // Преобразуем std::string в System::String^
+		int n2 = this->button3->TabIndex + 1; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ ГЇГ°Г ГўГЁГ«ГјГ­Г»Г© ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї button3
+		std::string optionText2 = mainMenu->AddOptionsInput(n2); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГІГҐГЄГ±ГІ Г®ГЇГ¶ГЁГЁ Г¤Г«Гї button3
+		this->button3->Text = msclr::interop::marshal_as<System::String^>(optionText2); // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ std::string Гў System::String^
 
-		int n3 = this->button4->TabIndex + 1; // Используем правильный индекс для button4
-		std::string optionText3 = mainMenu->AddOptionsInput(n3); // Получаем текст опции для button4
-		this->button4->Text = msclr::interop::marshal_as<System::String^>(optionText3); // Преобразуем std::string в System::String^
+		int n3 = this->button4->TabIndex + 1; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ ГЇГ°Г ГўГЁГ«ГјГ­Г»Г© ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї button4
+		std::string optionText3 = mainMenu->AddOptionsInput(n3); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГІГҐГЄГ±ГІ Г®ГЇГ¶ГЁГЁ Г¤Г«Гї button4
+		this->button4->Text = msclr::interop::marshal_as<System::String^>(optionText3); // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ std::string Гў System::String^
 
-		int n4 = this->button5->TabIndex + 1; // Используем правильный индекс для button5
-		std::string optionText4 = mainMenu->AddOptionsInput(n4); // Получаем текст опции для button5
-		this->button5->Text = msclr::interop::marshal_as<System::String^>(optionText4); // Преобразуем std::string в System::String^
+		int n4 = this->button5->TabIndex + 1; // Г€Г±ГЇГ®Г«ГјГ§ГіГҐГ¬ ГЇГ°Г ГўГЁГ«ГјГ­Г»Г© ГЁГ­Г¤ГҐГЄГ± Г¤Г«Гї button5
+		std::string optionText4 = mainMenu->AddOptionsInput(n4); // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГІГҐГЄГ±ГІ Г®ГЇГ¶ГЁГЁ Г¤Г«Гї button5
+		this->button5->Text = msclr::interop::marshal_as<System::String^>(optionText4); // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ std::string Гў System::String^
 
 		std::string optionText5 = mainMenu->WelcomeText();
 		this->label2->Text = msclr::interop::marshal_as<System::String^>(optionText5);
 	}
-};
+	};
 }

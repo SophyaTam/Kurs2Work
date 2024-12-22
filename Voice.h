@@ -6,15 +6,12 @@
 #include <cstdlib> // For system()
 #include <filesystem> // ??? ?????? ? ???????? ????????
 #include <sstream>
-class Video
+
+class Voice
 {
 private:
-    std::vector<std::string> videoFiles;
-    std::wstring folderPath;
-    char** LastVid;
-    char** AllVid;
+    int k=54;
 public:
-    std::string Video::ChooseOption(int k);
-    void LastVids();
-    std::string Video::chooseRandomVideo();
+
+    int ChangeVoice(int loud);
 };

@@ -1,26 +1,26 @@
-#include "Video.h"
+п»ї#include "Video.h"
 #include "MainMenu1.h"
 #include <cstdlib> // For system()
-#include <filesystem> // Для работы с файловой системой
+#include <filesystem> // Г„Г«Гї Г°Г ГЎГ®ГІГ» Г± ГґГ Г©Г«Г®ГўГ®Г© Г±ГЁГ±ГІГҐГ¬Г®Г©
 #include <sstream>
 #include <iostream> 
-#include <windows.h> // Для работы с файловой системой в Windows
+#include <windows.h> // Г„Г«Гї Г°Г ГЎГ®ГІГ» Г± ГґГ Г©Г«Г®ГўГ®Г© Г±ГЁГ±ГІГҐГ¬Г®Г© Гў Windows
 std::string Video::ChooseOption(int k)
 {
-    // Преобразуем k в строку и формируем путь к папке
+    // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ k Гў Г±ГІГ°Г®ГЄГі ГЁ ГґГ®Г°Г¬ГЁГ°ГіГҐГ¬ ГЇГіГІГј ГЄ ГЇГ ГЇГЄГҐ
     std::wstring folderName = std::to_wstring(k);
-    folderPath = L"C:\\Users\\User\\source\\repos\\" + folderName + L"\\*"; // Убедитесь, что путь правильный
+    folderPath = L"C:\\Users\\User\\source\\repos\\" + folderName + L"\\*"; // Г“ГЎГҐГ¤ГЁГІГҐГ±Гј, Г·ГІГ® ГЇГіГІГј ГЇГ°Г ГўГЁГ«ГјГ­Г»Г©
 
-    // Чтение файлов из папки
+    // Г—ГІГҐГ­ГЁГҐ ГґГ Г©Г«Г®Гў ГЁГ§ ГЇГ ГЇГЄГЁ
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = FindFirstFile(folderPath.c_str(), &findFileData);
 
     if (hFind != INVALID_HANDLE_VALUE) {
         do {
-            // Получаем имя файла
+            // ГЏГ®Г«ГіГ·Г ГҐГ¬ ГЁГ¬Гї ГґГ Г©Г«Г 
             std::wstring wFileName = findFileData.cFileName;
 
-            // Проверка на расширение видеофайла (например, .mp4, .avi)
+            // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г°Г Г±ГёГЁГ°ГҐГ­ГЁГҐ ГўГЁГ¤ГҐГ®ГґГ Г©Г«Г  (Г­Г ГЇГ°ГЁГ¬ГҐГ°, .mp4, .avi)
             std::string fileName(wFileName.begin(), wFileName.end());
 
             if (fileName.find(".mp4") != std::string::npos || fileName.find(".avi") != std::string::npos) {
@@ -30,55 +30,55 @@ std::string Video::ChooseOption(int k)
         FindClose(hFind);
     }
 
-    // Проверяем, есть ли найденные видеофайлы
+    // ГЏГ°Г®ГўГҐГ°ГїГҐГ¬, ГҐГ±ГІГј Г«ГЁ Г­Г Г©Г¤ГҐГ­Г­Г»ГҐ ГўГЁГ¤ГҐГ®ГґГ Г©Г«Г»
     if (!videoFiles.empty()) {
-        // Преобразуем имя первого найденного видеофайла в std::wstring
+        // ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГ¬ ГЁГ¬Гї ГЇГҐГ°ГўГ®ГЈГ® Г­Г Г©Г¤ГҐГ­Г­Г®ГЈГ® ГўГЁГ¤ГҐГ®ГґГ Г©Г«Г  Гў std::wstring
         std::wstring wFirstVideoFile = std::wstring(videoFiles[0].begin(), videoFiles[0].end());
-        // Отображаем MessageBox с именем первого найденного видеофайла
-        MessageBoxW(NULL, wFirstVideoFile.c_str(), L"Первый найденный видеофайл", MB_OK);
+        // ГЋГІГ®ГЎГ°Г Г¦Г ГҐГ¬ MessageBox Г± ГЁГ¬ГҐГ­ГҐГ¬ ГЇГҐГ°ГўГ®ГЈГ® Г­Г Г©Г¤ГҐГ­Г­Г®ГЈГ® ГўГЁГ¤ГҐГ®ГґГ Г©Г«Г 
+        MessageBoxW(NULL, wFirstVideoFile.c_str(), L"ГЏГҐГ°ГўГ»Г© Г­Г Г©Г¤ГҐГ­Г­Г»Г© ГўГЁГ¤ГҐГ®ГґГ Г©Г«", MB_OK);
 
-        // Формируем полный путь к выбранному видео
-        std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[0]; // Убираем '*' из folderPath
+        // Г”Г®Г°Г¬ГЁГ°ГіГҐГ¬ ГЇГ®Г«Г­Г»Г© ГЇГіГІГј ГЄ ГўГ»ГЎГ°Г Г­Г­Г®Г¬Гі ГўГЁГ¤ГҐГ®
+        std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[0]; // Г“ГЎГЁГ°Г ГҐГ¬ '*' ГЁГ§ folderPath
 
-        // Отображаем MessageBox с текстом выбранного видео
-        MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
+        // ГЋГІГ®ГЎГ°Г Г¦Г ГҐГ¬ MessageBox Г± ГІГҐГЄГ±ГІГ®Г¬ ГўГ»ГЎГ°Г Г­Г­Г®ГЈГ® ГўГЁГ¤ГҐГ®
+        MessageBoxA(NULL, selectedVideo.c_str(), "Г‚Г»ГЎГ°Г Г­Г­Г®ГҐ ГўГЁГ¤ГҐГ®", MB_OK);
         return selectedVideo;
     }
     else {
-        MessageBoxW(NULL, L"Видео файлы не найдены.", L"Ошибка", MB_OK);
-        return ""; // Возвращаем пустую строку, если видеофайлы не найдены
+        MessageBoxW(NULL, L"Г‚ГЁГ¤ГҐГ® ГґГ Г©Г«Г» Г­ГҐ Г­Г Г©Г¤ГҐГ­Г».", L"ГЋГёГЁГЎГЄГ ", MB_OK);
+        return ""; // Г‚Г®Г§ГўГ°Г Г№Г ГҐГ¬ ГЇГіГ±ГІГіГѕ Г±ГІГ°Г®ГЄГі, ГҐГ±Г«ГЁ ГўГЁГ¤ГҐГ®ГґГ Г©Г«Г» Г­ГҐ Г­Г Г©Г¤ГҐГ­Г»
     }
 }
 
 void Video::LastVids() {
     for (int i = 0; i < 100; i++) {
-        LastVid[i][0] = '\0'; // Инициализация массива LastVid
+        LastVid[i][0] = '\0'; // Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї Г¬Г Г±Г±ГЁГўГ  LastVid
     }
 }
 
 std::string Video::chooseRandomVideo() {
-    if (videoFiles.empty()) return ""; // Проверка на пустой вектор
+    if (videoFiles.empty()) return ""; // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГЇГіГ±ГІГ®Г© ГўГҐГЄГІГ®Г°
 
-    int totalVideos = videoFiles.size(); // Получаем общее количество видео
+    int totalVideos = videoFiles.size(); // ГЏГ®Г«ГіГ·Г ГҐГ¬ Г®ГЎГ№ГҐГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГўГЁГ¤ГҐГ®
 
-    if (totalVideos == 0) return ""; // Если нет видео, возвращаем пустую строку
+    if (totalVideos == 0) return ""; // Г…Г±Г«ГЁ Г­ГҐГІ ГўГЁГ¤ГҐГ®, ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ ГЇГіГ±ГІГіГѕ Г±ГІГ°Г®ГЄГі
 
     int randomIndex;
     int Allow;
     do {
-        randomIndex = rand() % totalVideos; // Генерация случайного индекса
+        randomIndex = rand() % totalVideos; // ГѓГҐГ­ГҐГ°Г Г¶ГЁГї Г±Г«ГіГ·Г Г©Г­Г®ГЈГ® ГЁГ­Г¤ГҐГЄГ±Г 
         Allow = 1;
         for (int i = 0; i < 4; i++) {
             if (strcmp(videoFiles[randomIndex].c_str(), LastVid[i]) == 0) {
-                Allow = 0; // Если видео уже было выбрано, запрещаем его выбор
+                Allow = 0; // Г…Г±Г«ГЁ ГўГЁГ¤ГҐГ® ГіГ¦ГҐ ГЎГ»Г«Г® ГўГ»ГЎГ°Г Г­Г®, Г§Г ГЇГ°ГҐГ№Г ГҐГ¬ ГҐГЈГ® ГўГ»ГЎГ®Г°
                 break;
             }
         }
     } while (Allow == 0);
-    // Возвращаем полный путь к выбранному видео
+    // Г‚Г®Г§ГўГ°Г Г№Г ГҐГ¬ ГЇГ®Г«Г­Г»Г© ГЇГіГІГј ГЄ ГўГ»ГЎГ°Г Г­Г­Г®Г¬Гі ГўГЁГ¤ГҐГ®
     std::string selectedVideo = std::string(folderPath.begin(), folderPath.end()) + videoFiles[randomIndex];
 
-    // Отображаем MessageBox с текстом выбранного видео
-    MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
+    // ГЋГІГ®ГЎГ°Г Г¦Г ГҐГ¬ MessageBox Г± ГІГҐГЄГ±ГІГ®Г¬ ГўГ»ГЎГ°Г Г­Г­Г®ГЈГ® ГўГЁГ¤ГҐГ®
+    MessageBoxA(NULL, selectedVideo.c_str(), "Г‚Г»ГЎГ°Г Г­Г­Г®ГҐ ГўГЁГ¤ГҐГ®", MB_OK);
     return selectedVideo;
 }

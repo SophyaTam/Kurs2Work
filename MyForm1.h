@@ -1,6 +1,9 @@
-#pragma once
+п»ї#pragma once
 #include "Video.h"
 #include <comdef.h>
+#include "Voice.h"
+#include <string>
+#include <msclr/marshal_cppstd.h>
 
 namespace Kurs2Work {
 
@@ -12,40 +15,40 @@ namespace Kurs2Work {
 	using namespace System::Drawing;
 	using namespace System::Runtime::InteropServices;
 
-	/// <summary>
-	/// Сводка для MyForm1
-	/// </summary>
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
-	private: Video* video;
+	private:
+		Video* video; // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РєР»Р°СЃСЃ Video
+		Voice* voice; // РЈРєР°Р·Р°С‚РµР»СЊ РЅР° РєР»Р°СЃСЃ Voice
+
 	public:
-		Form ^obj;
+		Form^ obj;
+
 		MyForm1(void)
 		{
 			InitializeComponent();
-			video = new Video;
-			//
-			//TODO: добавьте код конструктора
-			//
+			
+			video = new Video(); // РџРµСЂРµРґР°РµРј AxWindowsMediaPlayer РІ Video
+			voice = new Voice(); // РџРµСЂРµРґР°РµРј AxWindowsMediaPlayer РІ Voice
 		}
-		MyForm1(Form ^obj1)
+
+		MyForm1(Form^ obj1)
 		{
 			obj = obj1;
 			InitializeComponent();
-			video = new Video;
-			//
-			//TODO: добавьте код конструктора
-			//
+
+			// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РѕР±СЉРµРєС‚РѕРІ Video Рё Voice
+			video = new Video(); // РџРµСЂРµРґР°РµРј AxWindowsMediaPlayer РІ Video
+			voice = new Voice(); // РџРµСЂРµРґР°РµРј AxWindowsMediaPlayer РІ Voice
 		}
+
 	protected:
-		/// <summary>
-		/// Освободить все используемые ресурсы.
-		/// </summary>
 		~MyForm1()
 		{
 			if (components)
 			{
-				delete components;
+				delete video;
+				delete voice;
 			}
 		}
 	private: AxWMPLib::AxWindowsMediaPlayer^ axWindowsMediaPlayer1;
@@ -66,14 +69,14 @@ namespace Kurs2Work {
 
 	private:
 		/// <summary>
-		/// Обязательная переменная конструктора.
+		/// ГЋГЎГїГ§Г ГІГҐГ«ГјГ­Г Гї ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г .
 		/// </summary>
 		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
+		/// Г’Г°ГҐГЎГіГҐГ¬Г»Г© Г¬ГҐГІГ®Г¤ Г¤Г«Гї ГЇГ®Г¤Г¤ГҐГ°Г¦ГЄГЁ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г  вЂ” Г­ГҐ ГЁГ§Г¬ГҐГ­ГїГ©ГІГҐ 
+		/// Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГЅГІГ®ГЈГ® Г¬ГҐГІГ®Г¤Г  Г± ГЇГ®Г¬Г®Г№ГјГѕ Г°ГҐГ¤Г ГЄГІГ®Г°Г  ГЄГ®Г¤Г .
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -106,7 +109,7 @@ namespace Kurs2Work {
 			this->buttonStop->Name = L"buttonStop";
 			this->buttonStop->Size = System::Drawing::Size(75, 23);
 			this->buttonStop->TabIndex = 1;
-			this->buttonStop->Text = L"Стоп";
+			this->buttonStop->Text = L"РЎС‚РѕРї";
 			this->buttonStop->UseVisualStyleBackColor = true;
 			// 
 			// buttonAdvert
@@ -115,7 +118,7 @@ namespace Kurs2Work {
 			this->buttonAdvert->Name = L"buttonAdvert";
 			this->buttonAdvert->Size = System::Drawing::Size(75, 23);
 			this->buttonAdvert->TabIndex = 2;
-			this->buttonAdvert->Text = L"Реклама";
+			this->buttonAdvert->Text = L"Р РµРєР»Р°РјР°";
 			this->buttonAdvert->UseVisualStyleBackColor = true;
 			// 
 			// buttonExit
@@ -124,9 +127,9 @@ namespace Kurs2Work {
 			this->buttonExit->Name = L"buttonExit";
 			this->buttonExit->Size = System::Drawing::Size(75, 23);
 			this->buttonExit->TabIndex = 3;
-			this->buttonExit->Text = L"Назад";
+			this->buttonExit->Text = L"РќР°Р·Р°Рґ";
 			this->buttonExit->UseVisualStyleBackColor = true;
-			this->buttonExit->Click += gcnew System::EventHandler(this, &MyForm1::buttonExit_Click);
+			this->buttonExit->Click += gcnew System::EventHandler(this, &MyForm1::buttonExit_Click_1);
 			// 
 			// buttonNext
 			// 
@@ -134,25 +137,26 @@ namespace Kurs2Work {
 			this->buttonNext->Name = L"buttonNext";
 			this->buttonNext->Size = System::Drawing::Size(98, 23);
 			this->buttonNext->TabIndex = 4;
-			this->buttonNext->Text = L"Следующее";
+			this->buttonNext->Text = L"РЎР»РµРґСѓСЋС‰РёР№";
 			this->buttonNext->UseVisualStyleBackColor = true;
 			// 
 			// trackBar1
 			// 
 			this->trackBar1->Location = System::Drawing::Point(1064, 215);
+			this->trackBar1->Maximum = 100;
 			this->trackBar1->Name = L"trackBar1";
 			this->trackBar1->Size = System::Drawing::Size(104, 56);
 			this->trackBar1->TabIndex = 5;
+			this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm1::trackBar1_Scroll);
 			// 
 			// Volume
 			// 
 			this->Volume->AutoSize = true;
 			this->Volume->Location = System::Drawing::Point(1077, 185);
 			this->Volume->Name = L"Volume";
-			this->Volume->Size = System::Drawing::Size(75, 16);
+			this->Volume->Size = System::Drawing::Size(39, 16);
 			this->Volume->TabIndex = 6;
-			this->Volume->Text = L"Громкость";
-			this->Volume->Click += gcnew System::EventHandler(this, &MyForm1::label1_Click);
+			this->Volume->Text = L"Р—РІСѓРє";
 			// 
 			// percent
 			// 
@@ -162,6 +166,7 @@ namespace Kurs2Work {
 			this->percent->Size = System::Drawing::Size(26, 16);
 			this->percent->TabIndex = 7;
 			this->percent->Text = L"0%";
+			this->percent->Click += gcnew System::EventHandler(this, &MyForm1::percent_Click);
 			// 
 			// MyForm1
 			// 
@@ -184,30 +189,39 @@ namespace Kurs2Work {
 		}
 #pragma endregion
 private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
-	std::string videoFile = video->ChooseOption(1); // Вызов функции для получения названия видео
+	std::string videoFile = video->ChooseOption(1); // Р’С‹Р±РѕСЂ С„Р°Р№Р»Р° РґР»СЏ РІРѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёСЏ
 
-	// Проверяем, что videoFile не пустой
+	// РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ videoFile РЅРµ РїСѓСЃС‚РѕР№
 	if (videoFile.empty()) {
-		MessageBoxA(NULL, "Не удалось получить видеофайл.", "Ошибка", MB_OK);
-		return; // Выходим из функции, если видеофайл не найден
+		MessageBoxA(NULL, "РќРµ СѓРґР°Р»РѕСЃСЊ РІС‹Р±СЂР°С‚СЊ РІРёРґРµРѕС„Р°Р№Р».", "РћС€РёР±РєР°", MB_OK);
+		return; // Р’С‹С…РѕРґРёРј РёР· С„СѓРЅРєС†РёРё, РµСЃР»Рё РІРёРґРµРѕС„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ
 	}
 
 	System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
 	try {
-		axWindowsMediaPlayer2->URL = managedVideoFile; // Устанавливаем URL
-		axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение
+		axWindowsMediaPlayer2->URL = managedVideoFile; // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј URL
+		axWindowsMediaPlayer2->Ctlcontrols->play(); // Р—Р°РїСѓСЃРєР°РµРј РІРѕСЃРїСЂРѕРёР·РІРµРґРµРЅРёРµ
 	}
-	catch (const std::exception& e) {
-		// Обработка исключений
-		std::cerr << "Произошла ошибка: " << e.what() << std::endl; // Исправлено на e.what()
-		MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK); // Добавлено сообщение об ошибке
+	catch (System::Exception^ e) {
+		// РћР±СЂР°Р±РѕС‚РєР° РёСЃРєР»СЋС‡РµРЅРёСЏ
+		MessageBox::Show("РћС€РёР±РєР° РїСЂРё СѓСЃС‚Р°РЅРѕРІРєРµ URL: " + e->Message, "РћС€РёР±РєР°", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 }
+
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
+		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(54);
 	}
-	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		// РџРѕР»СѓС‡Р°РµРј С‚РµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ TrackBar
+		int value = trackBar1->Value;
+		// РћР±РЅРѕРІР»СЏРµРј С‚РµРєСЃС‚ Label
+		percent->Text = value.ToString() + "%";
+		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
 	}
-private: System::Void buttonExit_Click(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 	obj->Show();
 }
