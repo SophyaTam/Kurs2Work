@@ -3,6 +3,7 @@
 #include <comdef.h>
 #include "Voice.h"
 #include <string>
+#include "Stop.h"
 #include <msclr/marshal_cppstd.h>
 
 namespace Kurs2Work {
@@ -20,6 +21,7 @@ namespace Kurs2Work {
 	private:
 		Video* video; // Указатель на класс Video
 		Voice* voice; // Указатель на класс Voice
+		Stop* stop;
 
 	public:
 		Form^ obj;
@@ -30,6 +32,7 @@ namespace Kurs2Work {
 			
 			video = new Video(); // Передаем AxWindowsMediaPlayer в Video
 			voice = new Voice(); // Передаем AxWindowsMediaPlayer в Voice
+			stop = new Stop();
 		}
 
 		MyForm1(Form^ obj1)
@@ -40,6 +43,7 @@ namespace Kurs2Work {
 			// Инициализация объектов Video и Voice
 			video = new Video(); // Передаем AxWindowsMediaPlayer в Video
 			voice = new Voice(); // Передаем AxWindowsMediaPlayer в Voice
+			stop = new Stop();
 		}
 
 	protected:
@@ -111,6 +115,7 @@ namespace Kurs2Work {
 			this->buttonStop->TabIndex = 1;
 			this->buttonStop->Text = L"Стоп";
 			this->buttonStop->UseVisualStyleBackColor = true;
+			this->buttonStop->Click += gcnew System::EventHandler(this, &MyForm1::buttonStop_Click);
 			// 
 			// buttonAdvert
 			// 
@@ -224,6 +229,9 @@ private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e
 private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
 	obj->Show();
+}
+private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs^ e) {
+	stop->ButtonStop(axWindowsMediaPlayer2);
 }
 };
 }

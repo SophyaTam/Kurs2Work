@@ -121,6 +121,7 @@
     <ClCompile Include="MainMenu1.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="MyForm1.cpp" />
+    <ClCompile Include="Stop.cpp" />
     <ClCompile Include="Video.cpp" />
     <ClCompile Include="Voice.cpp" />
   </ItemGroup>
@@ -132,6 +133,7 @@
     <ClInclude Include="MyForm1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Stop.h" />
     <ClInclude Include="Video.h" />
     <ClInclude Include="Voice.h" />
   </ItemGroup>
