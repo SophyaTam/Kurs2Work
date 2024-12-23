@@ -1,18 +1,17 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
-#include <memory> // ??? std::unique_ptr
+#include <memory> // Äëÿ std::unique_ptr
 #include <cstdlib> // For system()
-#include <filesystem> // ??? ?????? ? ???????? ????????
+#include <filesystem> // Äëÿ ðàáîòû ñ ôàéëîâîé ñèñòåìîé
 #include <sstream>
 class Video
 {
 private:
-    std::vector<std::string> videoFiles;
-    std::wstring folderPath;
-    char** LastVid;
-    char** AllVid;
+    std::vector<std::string> videoFiles; // Вектор с именами видеофайлов
+    std::wstring folderPath; // Путь к папке с видео (изменено на std::wstring)
+    std::string LastVid[4]; // Массив последних видео
 public:
     std::string Video::ChooseOption(int k);
     void LastVids();

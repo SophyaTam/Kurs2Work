@@ -4,6 +4,7 @@
 #include "Video.h"
 #include <string>
 #include <msclr/marshal_cppstd.h>
+#include "Global.h"
 
 namespace Kurs2Work {
 
@@ -33,7 +34,6 @@ namespace Kurs2Work {
 
 		~MyForm() {
 			delete mainMenu; // Îñâîáîæäàåì ïàìÿòü
-			delete video;
 		}
 
 	private: System::Windows::Forms::Button^ SerialsOption;
@@ -137,31 +137,31 @@ namespace Kurs2Work {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		video->ChooseOption(1);
+		globalOption = 1;
 	}
 	private: System::Void Detective_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		video->ChooseOption(2);
+		globalOption = 2;
 	}
 	private: System::Void Comedy_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		video->ChooseOption(3);
+		globalOption = 3;
 	}
 	private: System::Void Melodram_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		video->ChooseOption(4);
+		globalOption = 4;
 	}
 	private: System::Void Serials_Option_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		video->ChooseOption(5);
+		globalOption = 5;
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		int n = this->button1->TabIndex + 1; // Óáåäèòåñü, ÷òî âû èñïîëüçóåòå ïðàâèëüíûé èíäåêñ

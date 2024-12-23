@@ -5,6 +5,9 @@
 #include <string>
 #include "Stop.h"
 #include <msclr/marshal_cppstd.h>
+#include "Global.h"
+#include <Windows.h>
+#include <msclr/marshal.h> // Для использования Marshal
 
 namespace Kurs2Work {
 
@@ -194,22 +197,38 @@ namespace Kurs2Work {
 		}
 #pragma endregion
 private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
-	std::string videoFile = video->ChooseOption(1); // Выбор файла для воспроизведения
+	if (video == nullptr) {
+		MessageBoxA(NULL, "video не инициализирован.", "Ошибка", MB_OK);
+		return;
+	}
 
-	// Проверяем, что videoFile не пустой
+	video->ChooseOption(globalOption + 1);
+	std::string videoFile = video->chooseRandomVideo();
+
 	if (videoFile.empty()) {
 		MessageBoxA(NULL, "Не удалось выбрать видеофайл.", "Ошибка", MB_OK);
-		return; // Выходим из функции, если видеофайл не найден
+		return;
 	}
 
 	System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
-	try {
-		axWindowsMediaPlayer2->URL = managedVideoFile; // Устанавливаем URL
-		axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение
+
+	if (axWindowsMediaPlayer2 == nullptr) {
+		MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
+		return;
 	}
-	catch (System::Exception^ e) {
-		// Обработка исключения
-		MessageBox::Show("Ошибка при установке URL: " + e->Message, "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+
+	try {
+		axWindowsMediaPlayer2->URL = managedVideoFile;
+		if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+			axWindowsMediaPlayer2->Ctlcontrols->play();
+		}
+		else {
+			MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+		}
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Произошла ошибка: " << e.what() << std::endl;
+		MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
 	}
 }
 
