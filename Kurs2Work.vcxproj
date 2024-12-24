@@ -118,6 +118,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Advert.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="MainMenu1.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -127,6 +128,7 @@
     <ClCompile Include="Voice.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Advert.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="MainMenu1.h" />
     <ClInclude Include="MyForm.h">

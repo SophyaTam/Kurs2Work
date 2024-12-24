@@ -2,20 +2,20 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <memory> // Äëÿ std::unique_ptr
-#include <cstdlib> // For system()
-#include <filesystem> // Äëÿ ðàáîòû ñ ôàéëîâîé ñèñòåìîé
+#include <memory>
+#include <cstdlib>
+#include <filesystem>
 #include <sstream>
-class Video
-{
+
+class Video {
 private:
-    std::vector<std::string> videoFiles; // Вектор с именами видеофайлов
-    std::wstring folderPath; // Путь к папке с видео (изменено на std::wstring)
-    std::string LastVid[4]; // Массив последних видео
+    std::vector<std::string> videoFiles;
+    std::wstring folderPath;
+    std::string LastVid[4];
     int lastVidIndex = 0;
-    std::string folderPathGeneral= "C:\\Users\\User\\source\\repos\\";
+
 public:
-    std::string Video::ChooseOption(int k);
-    void LastVids();
-    std::string Video::chooseRandomVideo();
+    virtual std::string ChooseOption(int k); // Метод с параметром k
+    virtual void LastVids();
+    virtual std::string chooseRandomVideo();
 };

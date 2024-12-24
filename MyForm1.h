@@ -2,6 +2,7 @@
 #include "Video.h"
 #include <comdef.h>
 #include "Voice.h"
+#include "Advert.h"
 #include <string>
 #include "Stop.h"
 #include <msclr/marshal_cppstd.h>
@@ -25,6 +26,9 @@ namespace Kurs2Work {
 		Video* video; // Указатель на класс Video
 		Voice* voice; // Указатель на класс Voice
 		Stop* stop;
+		Advert* advert;
+		int flag;
+		bool isFirstVideoPlaying = false;
 
 	public:
 		Form^ obj;
@@ -36,6 +40,9 @@ namespace Kurs2Work {
 			video = new Video(); // Передаем AxWindowsMediaPlayer в Video
 			voice = new Voice(); // Передаем AxWindowsMediaPlayer в Voice
 			stop = new Stop();
+			advert = new Advert();
+			flag = 0;
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 255, 255);
 		}
 
 		MyForm1(Form^ obj1)
@@ -47,6 +54,9 @@ namespace Kurs2Work {
 			video = new Video(); // Передаем AxWindowsMediaPlayer в Video
 			voice = new Voice(); // Передаем AxWindowsMediaPlayer в Voice
 			stop = new Stop();
+			advert = new Advert();
+			flag = 0;
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 255, 255);
 		}
 
 	protected:
@@ -122,12 +132,15 @@ namespace Kurs2Work {
 			// 
 			// buttonAdvert
 			// 
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
 			this->buttonAdvert->Location = System::Drawing::Point(1080, 87);
 			this->buttonAdvert->Name = L"buttonAdvert";
 			this->buttonAdvert->Size = System::Drawing::Size(75, 23);
 			this->buttonAdvert->TabIndex = 2;
 			this->buttonAdvert->Text = L"Реклама";
-			this->buttonAdvert->UseVisualStyleBackColor = true;
+			this->buttonAdvert->UseVisualStyleBackColor = false;
+			this->buttonAdvert->Click += gcnew System::EventHandler(this, &MyForm1::buttonAdvert_Click);
 			// 
 			// buttonExit
 			// 
@@ -201,6 +214,7 @@ private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, Syst
 }
 
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
+
 		if (video == nullptr) {
 			MessageBoxA(NULL, "video не инициализирован.", "Ошибка", MB_OK);
 			return;
@@ -256,6 +270,36 @@ private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs
 	stop->ButtonStop(axWindowsMediaPlayer2);
 }
 private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (flag = 1) {
+		advert->ChooseOption();
+		std::string videoFile = advert->chooseRandomVideo();
+
+		if (videoFile.empty()) {
+			MessageBoxA(NULL, "Не удалось выбрать рекламу.", "Ошибка", MB_OK);
+			return;
+		}
+
+		System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
+
+		if (axWindowsMediaPlayer2 == nullptr) {
+			MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
+			return;
+		}
+
+		try {
+			axWindowsMediaPlayer2->URL = managedVideoFile;
+			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+				axWindowsMediaPlayer2->Ctlcontrols->play();
+			}
+			else {
+				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Произошла ошибка: " << e.what() << std::endl;
+			MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
+		}
+	}
 	std::string videoFile = video->chooseRandomVideo();
 
 	if (videoFile.empty()) {
@@ -283,6 +327,17 @@ private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs
 		std::cerr << "Произошла ошибка: " << e.what() << std::endl;
 		MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
 	}
+}private: System::Void buttonAdvert_Click(System::Object^ sender, System::EventArgs^ e) {
+	if (flag == 0) { // Используем оператор сравнения
+		flag = 1;
+		this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(192, 255, 192); // Светло-зеленый
+	}
+	else {
+		flag = 0; // Изменяем на 0, чтобы переключать обратно
+		this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
+	}
+	// Обновление интерфейса (если необходимо)
+	this->Invalidate(); // Или this->Refresh();
 }
 };
 }
