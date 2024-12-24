@@ -13,6 +13,7 @@ private:
     std::wstring folderPath; // Путь к папке с видео (изменено на std::wstring)
     std::string LastVid[4]; // Массив последних видео
     int lastVidIndex = 0;
+    std::string folderPathGeneral= "C:\\Users\\User\\source\\repos\\";
 public:
     std::string Video::ChooseOption(int k);
     void LastVids();
