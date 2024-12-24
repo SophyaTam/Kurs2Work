@@ -147,6 +147,7 @@ namespace Kurs2Work {
 			this->buttonNext->TabIndex = 4;
 			this->buttonNext->Text = L"Следующий";
 			this->buttonNext->UseVisualStyleBackColor = true;
+			this->buttonNext->Click += gcnew System::EventHandler(this, &MyForm1::buttonNext_Click);
 			// 
 			// trackBar1
 			// 
@@ -197,12 +198,64 @@ namespace Kurs2Work {
 		}
 #pragma endregion
 private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
-	if (video == nullptr) {
-		MessageBoxA(NULL, "video не инициализирован.", "Ошибка", MB_OK);
-		return;
+}
+
+	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
+		if (video == nullptr) {
+			MessageBoxA(NULL, "video не инициализирован.", "Ошибка", MB_OK);
+			return;
+		}
+
+		video->ChooseOption(globalOption);
+		std::string videoFile = video->chooseRandomVideo();
+
+		if (videoFile.empty()) {
+			MessageBoxA(NULL, "Не удалось выбрать видеофайл.", "Ошибка", MB_OK);
+			return;
+		}
+
+		System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
+
+		if (axWindowsMediaPlayer2 == nullptr) {
+			MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
+			return;
+		}
+
+		try {
+			axWindowsMediaPlayer2->URL = managedVideoFile;
+			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+				axWindowsMediaPlayer2->Ctlcontrols->play();
+			}
+			else {
+				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+			}
+		}
+		catch (const std::exception& e) {
+			std::cerr << "Произошла ошибка: " << e.what() << std::endl;
+			MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
+		}
+		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(54);
+		trackBar1->Value = 54;
+		percent->Text = "54%";
 	}
 
-	video->ChooseOption(globalOption + 1);
+	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		// Получаем текущее значение TrackBar
+		int value = trackBar1->Value;
+		// Обновляем текст Label
+		percent->Text = value.ToString() + "%";
+		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
+	}
+private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
+	obj->Show();
+}
+private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs^ e) {
+	stop->ButtonStop(axWindowsMediaPlayer2);
+}
+private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
 	std::string videoFile = video->chooseRandomVideo();
 
 	if (videoFile.empty()) {
@@ -230,27 +283,6 @@ private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, Syst
 		std::cerr << "Произошла ошибка: " << e.what() << std::endl;
 		MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
 	}
-}
-
-	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
-		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(54);
-	}
-
-	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		// Получаем текущее значение TrackBar
-		int value = trackBar1->Value;
-		// Обновляем текст Label
-		percent->Text = value.ToString() + "%";
-		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
-	}
-private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	obj->Show();
-}
-private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs^ e) {
-	stop->ButtonStop(axWindowsMediaPlayer2);
 }
 };
 }

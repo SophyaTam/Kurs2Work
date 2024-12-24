@@ -74,7 +74,8 @@ std::string Video::chooseRandomVideo() {
             }
         }
     } while (Allow == 0);
-
+    LastVid[lastVidIndex] = videoFiles[randomIndex]; // Сохраняем выбранное видео
+    lastVidIndex = (lastVidIndex + 1) % 4; // Увеличиваем индекс и обнуляем его при достижении 4
     std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[randomIndex]; // Убираем '*' из folderPath
     MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
     return selectedVideo;

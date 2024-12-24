@@ -1,4 +1,6 @@
-#pragma once
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
-// ќбъ€вление глобальной переменной
-extern int globalOption;
+extern int globalOption; // ќбъ€вление глобальной переменной
+
+#endif // GLOBAL_H

@@ -134,34 +134,34 @@ namespace Kurs2Work {
 		}
 #pragma endregion
 	private: System::Void Child_Option_Click(System::Object^ sender, System::EventArgs^ e) {
+		globalOption = 1;
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		globalOption = 1;
 	}
 	private: System::Void Detective_Option_Click(System::Object^ sender, System::EventArgs^ e) {
+		globalOption = 2;
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		globalOption = 2;
 	}
 	private: System::Void Comedy_Option_Click(System::Object^ sender, System::EventArgs^ e) {
+		globalOption = 3;
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		globalOption = 3;
 	}
 	private: System::Void Melodram_Option_Click(System::Object^ sender, System::EventArgs^ e) {
+		globalOption = 4;
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		globalOption = 4;
 	}
 	private: System::Void Serials_Option_Click(System::Object^ sender, System::EventArgs^ e) {
+		globalOption = 5;
 		this->Hide();
 		MyForm1^ obj1 = gcnew MyForm1(this);
 		obj1->ShowDialog();
-		globalOption = 5;
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 		int n = this->button1->TabIndex + 1; // Óáåäèòåñü, ÷òî âû èñïîëüçóåòå ïðàâèëüíûé èíäåêñ

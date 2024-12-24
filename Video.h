@@ -12,6 +12,7 @@ private:
     std::vector<std::string> videoFiles; // Вектор с именами видеофайлов
     std::wstring folderPath; // Путь к папке с видео (изменено на std::wstring)
     std::string LastVid[4]; // Массив последних видео
+    int lastVidIndex = 0;
 public:
     std::string Video::ChooseOption(int k);
     void LastVids();
