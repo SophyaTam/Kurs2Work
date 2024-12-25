@@ -30,10 +30,8 @@ namespace Kurs2Work {
 		Stop* stop;
 		Advert* advert;
 		int flag;
-		bool isFirstVideoPlaying = false;
-		System::Windows::Forms::Timer^ timer;
-		bool isAdPlaying = false;
-	private: System::Windows::Forms::Timer^ timer1;
+		bool isFirstVideoPlaying;
+		bool isAdPlaying;
 
 	public:
 		Form^ obj;
@@ -41,7 +39,7 @@ namespace Kurs2Work {
 		MyForm1(void)
 		{
 			InitializeComponent();
-			
+
 			video = new Video(); // Передаем AxWindowsMediaPlayer в Video
 			voice = new Voice(); // Передаем AxWindowsMediaPlayer в Voice
 			stop = new Stop();
@@ -69,8 +67,10 @@ namespace Kurs2Work {
 		{
 			if (components)
 			{
-				delete video;
-				delete voice;
+				delete video; // Освобождаем память
+				delete voice; // Освобождаем память
+				delete stop;  // Освобождаем память
+				delete advert; // Освобождаем память
 			}
 		}
 	private: AxWMPLib::AxWindowsMediaPlayer^ axWindowsMediaPlayer1;
@@ -87,6 +87,7 @@ namespace Kurs2Work {
 	private: System::Windows::Forms::Label^ Volume;
 	private: System::Windows::Forms::Label^ percent;
 	private: System::ComponentModel::IContainer^ components;
+	private: System::Windows::Forms::Timer^ timer1;
 
 	protected:
 
@@ -198,9 +199,10 @@ namespace Kurs2Work {
 			this->percent->Text = L"0%";
 			this->percent->Click += gcnew System::EventHandler(this, &MyForm1::percent_Click);
 			// 
-			// timer1
-			// 
-			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm1::timer1_Tick);
+			// timer1 // 
+			timer1 = gcnew System::Windows::Forms::Timer(); 
+			timer1->Interval = 500; // Проверяем каждую секунду 
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm1::timer1_Tick); 
 			// 
 			// MyForm1
 			// 
@@ -222,8 +224,8 @@ namespace Kurs2Work {
 
 		}
 #pragma endregion
-private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
-}
+	private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, System::EventArgs^ e) {
+	}
 
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 
@@ -272,79 +274,68 @@ private: System::Void axWindowsMediaPlayer2_Enter_1(System::Object^ sender, Syst
 		percent->Text = value.ToString() + "%";
 		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
 	}
-private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
-}
-private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
-	this->Hide();
-	obj->Show();
-}
-private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
-		 // Проверяем, не воспроизводится ли реклама в данный момент
-			 StartVideoWithTimer(); // Запускаем видео с таймером
-}
+	private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (flag == 1 && !isAdPlaying) {
+			StartVideoWithTimer();
+		}
+		else if (!isAdPlaying) {
+			PlaySecondVideo();
+		}
+		else {
+			MessageBoxA(NULL, "Реклама уже воспроизводится.", "Информация", MB_OK);
+		}
+	}
 
-			void StartVideoWithTimer() {
-				if (flag == 1) {
-					advert->ChooseOption();
-					std::string videoFile = advert->chooseRandomVideo();
+		   void StartVideoWithTimer() {
+			   advert->ChooseOption();
+			   std::string videoFile = advert->chooseRandomVideo();
 
-					if (videoFile.empty()) {
-						MessageBoxA(NULL, "Не удалось выбрать рекламу.", "Ошибка", MB_OK);
-						return;
-					}
+			   if (videoFile.empty()) {
+				   MessageBoxA(NULL, "Не удалось выбрать рекламу.", "Ошибка", MB_OK);
+				   return;
+			   }
 
-					System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
+			   System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
 
-					if (axWindowsMediaPlayer2 == nullptr) {
-						MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
-						return;
-					}
+			   if (axWindowsMediaPlayer2 == nullptr) {
+				   MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
+				   return;
+			   }
 
-					try {
-						axWindowsMediaPlayer2->URL = managedVideoFile;
-						if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
-							axWindowsMediaPlayer2->Ctlcontrols->play();
-							isAdPlaying = true; // Устанавливаем флаг, что реклама воспроизводится
+			   try {
+				   axWindowsMediaPlayer2->URL = managedVideoFile;
+				   if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+					   axWindowsMediaPlayer2->Ctlcontrols->play();
+					   isAdPlaying = true;
 
-							// Создаем и настраиваем таймер
-							timer1 = gcnew System::Windows::Forms::Timer();
-							this->timer1->Tick += gcnew System::EventHandler(this, &MyForm1::OnTimerTick);
-							timer1->Interval = 1000; // Проверяем каждую секунду
-							timer1->Start();
-						}
-						else {
-							MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
-						}
-					}
-					catch (const std::exception& e) {
-						std::cerr << "Произошла ошибка: " << e.what() << std::endl;
-						MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
-					}
-				}
-			}
+					   if (timer1 == nullptr) {
+						   timer1 = gcnew System::Windows::Forms::Timer();
+						   timer1->Tick += gcnew System::EventHandler(this, &MyForm1::timer1_Tick);
+					   }
+					   timer1->Start();
+					   MessageBoxA(NULL, "Таймер запустился.", "Информация", MB_OK);
+				   }
+				   else {
+					   MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+				   }
+			   }
+			   catch (const std::exception& e) {
+				   MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
+			   }
+		   }
 
-private: void OnTimerTick(System::Object^ sender, System::EventArgs^ e) {
-	// Проверяем, воспроизводится ли видео
+private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
 	if (axWindowsMediaPlayer2->currentMedia != nullptr) {
-		// Получаем длительность видео
 		double duration = axWindowsMediaPlayer2->currentMedia->duration;
-
-		// Получаем текущее время воспроизведения
 		double currentPosition = axWindowsMediaPlayer2->Ctlcontrols->currentPosition;
 
-		// Отладочные сообщения
-		std::cout << "Длительность: " << duration << ", Текущая позиция: " << currentPosition << std::endl;
-
-		// Проверяем, достигло ли текущее время воспроизведения длительности
 		if (currentPosition >= duration) {
-			// Останавливаем видео и останавливаем таймер
 			axWindowsMediaPlayer2->Ctlcontrols->stop();
 			timer1->Stop();
-			timer1 = nullptr; // Устанавливаем таймер в nullptr
-
-			isAdPlaying = false; // Сбрасываем флаг рекламы
-
-			// Запускаем второе видео
+			MessageBoxA(NULL, "Таймер остановился.", "Информация", MB_OK);
+			isAdPlaying = false;
 			PlaySecondVideo();
 		}
 	}
@@ -353,44 +344,52 @@ private: void OnTimerTick(System::Object^ sender, System::EventArgs^ e) {
 	}
 }
 
-private: void PlaySecondVideo() {
-	// Здесь вы можете указать путь к вашему второму видео
-	std::string videoFile = video->chooseRandomVideo();
-
-	System::String^ secondVideoFile = gcnew System::String(videoFile.c_str());
-
-	if (axWindowsMediaPlayer2 != nullptr) {
-		try {
-			axWindowsMediaPlayer2->URL = secondVideoFile;
-			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
-				axWindowsMediaPlayer2->Ctlcontrols->play();
+	private: void PlaySecondVideo() { // Здесь вы можете указать путь к вашему второму видео 
+		std::string videoFile = video->chooseRandomVideo(); // Предполагается, что video - это объект, который выбирает второе видео
+		if (videoFile.empty()) {
+				MessageBoxA(NULL, "Не удалось выбрать второе видео.", "Ошибка", MB_OK);
+				return;
 			}
-			else {
-				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+
+		System::String^ secondVideoFile = gcnew System::String(videoFile.c_str());
+
+		if (axWindowsMediaPlayer2 != nullptr) {
+			try {
+				axWindowsMediaPlayer2->URL = secondVideoFile; // Устанавливаем URL второго видео
+				if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+					axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение второго видео
+				}
+				else {
+					MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+				}
+			}
+			catch (const std::exception& e) {
+				std::cerr << "Произошла ошибка: " << e.what() << std::endl;
+				MessageBoxA(NULL, "Произошла ошибка при установке URL второго видео.", "Ошибка", MB_OK);
 			}
 		}
-		catch (const std::exception& e) {
-			std::cerr << "Произошла ошибка: " << e.what() << std::endl;
-			MessageBoxA(NULL, "Произошла ошибка при установке URL второго видео.", "Ошибка", MB_OK);
+		else {
+			MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
 		}
 	}
-}
-private: System::Void buttonAdvert_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (flag == 0) { // Используем оператор сравнения
-		flag = 1;
-		this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(192, 255, 192); // Светло-зеленый
+	private: System::Void buttonAdvert_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (flag == 0) { // Используем оператор сравнения
+			flag = 1;
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(192, 255, 192); // Светло-зеленый
+		}
+		else {
+			flag = 0; // Изменяем на 0, чтобы переключать обратно
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
+		}
+		// Обновление интерфейса (если необходимо)
+		this->Invalidate(); // Или this->Refresh();
 	}
-	else {
-		flag = 0; // Изменяем на 0, чтобы переключать обратно
-		this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
+	private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs^ e) {
+		stop->ButtonStop(axWindowsMediaPlayer2);
 	}
-	// Обновление интерфейса (если необходимо)
-	this->Invalidate(); // Или this->Refresh();
-}
-   private: System::Void buttonStop_Click(System::Object^ sender, System::EventArgs^e){
-	   stop->ButtonStop(axWindowsMediaPlayer2);
-}
-private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-}
-};
+		   private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
+			   this->Hide();
+			   obj->Show();
+		   }
+	};
 }
