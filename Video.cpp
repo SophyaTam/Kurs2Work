@@ -36,46 +36,28 @@ std::string Video::ChooseOption(int k) {
         }
     }
 
-void Video::LastVids() {
-        int totalVideos = videoFiles.size();
-        for (int i = 0; i < totalVideos-1; i++) { // Проверка, чтобы не выйти за пределы массива
-            LastVid[i] = ""; // Очистка массива LastVid
-        }
-    }
-
 std::string Video::chooseRandomVideo() {
     if (videoFiles.empty()) return ""; // Проверка на пустой вектор
 
-    int totalVideos = videoFiles.size(); // Правильный вызов метода size
-
-    // Преобразование int в std::wstring
-    std::wostringstream woss;
-    woss << totalVideos; // Запись числа в поток
-    std::wstring totalVideosStr = woss.str(); // Получение строки
-
+    int totalVideos = videoFiles.size();
     int randomIndex;
-    int Allow;
+    bool allow;
 
     do {
         randomIndex = rand() % totalVideos; // Генерация случайного индекса
-        std::ostringstream oss;
-        oss << randomIndex; // Запись индекса в поток
-        std::string randomIndexStr = oss.str(); // Получение строки
+        allow = true;
 
-        // Вывод randomIndex в MessageBox
-        MessageBoxA(NULL, randomIndexStr.c_str(), "Случайный индекс", MB_OK);
-        Allow = 1;
-
-        for (int i = 0; i < totalVideos; i++) { // Изменено на < вместо <=
-            if (strcmp(videoFiles[randomIndex].c_str(), LastVid[i].c_str()) == 0) {
-                MessageBoxW(NULL, totalVideosStr.c_str(), L"Размер массива", MB_OK);
-                Allow = 0; // Если видео уже было, пробуем снова
+        for (int i = 0; i <4; i++) { // Проверка на уникальность
+            if (LastVid[i] == videoFiles[randomIndex]) {
+                allow = false; // Если видео уже было, пробуем снова
                 break;
             }
         }
-    } while (Allow == 0);
+    } while (!allow);
+
     LastVid[lastVidIndex] = videoFiles[randomIndex]; // Сохраняем выбранное видео
     lastVidIndex = (lastVidIndex + 1) % 3; // Увеличиваем индекс и обнуляем его при достижении 4
+
     std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[randomIndex]; // Убираем '*' из folderPath
     MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
     return selectedVideo;

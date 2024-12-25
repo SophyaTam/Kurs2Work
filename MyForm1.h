@@ -380,7 +380,7 @@ namespace Kurs2Work {
 	}
 		   void StartVideoWithTimer() {
 			   advert->ChooseOption();
-			   std::string videoFile = advert->chooseRandomVideo();
+			   std::string videoFile = advert->chooseRandomVideo1();
 
 			   if (videoFile.empty()) {
 				   MessageBoxA(NULL, "Не удалось выбрать рекламу.", "Ошибка", MB_OK);
