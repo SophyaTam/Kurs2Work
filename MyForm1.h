@@ -310,6 +310,8 @@ namespace Kurs2Work {
 		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(54);
 		trackBar1->Value = 54;
 		percent->Text = "54%";
+		isAdPlaying = true;
+		timer1->Start();
 	}
 
 		   void ProgressBarLoad() {
@@ -476,6 +478,8 @@ private: void PlaySecondVideo() {
 	else {
 		MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
 	}
+	isAdPlaying = true;
+	timer1->Start();
 }
 	private: System::Void buttonAdvert_Click(System::Object^ sender, System::EventArgs^ e) {
 		if (flag == 0) { // Используем оператор сравнения
