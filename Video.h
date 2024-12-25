@@ -9,8 +9,8 @@ class Video {
 private:
     std::vector<std::string> videoFiles;
     std::wstring folderPath;
-    std::string LastVid[3];
-    int lastVidIndex = 0;
+    std::string LastVid="";
+    std::string BeforeLastVid="";
 
 public:
     virtual std::string ChooseOption(int k); // Метод с параметром k

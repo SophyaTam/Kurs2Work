@@ -402,7 +402,6 @@ namespace Kurs2Work {
 
 					   // Запускаем таймер
 					   timer1->Start();
-					   MessageBoxA(NULL, "Таймер запустился.", "Информация", MB_OK);
 				   }
 				   else {
 					   MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);

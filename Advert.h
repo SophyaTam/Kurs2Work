@@ -12,7 +12,6 @@ class Advert : public Video {
 private:
     std::vector<std::string> videoFiles;
     std::wstring folderPath;
-    std::string LastVid[3];
     int lastVidIndex = 0;
 public:
     std::string ChooseOption(); // Новый метод без параметров

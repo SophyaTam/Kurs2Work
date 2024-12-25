@@ -20,16 +20,12 @@ namespace Kurs2Work {
 	{
 	private:
 		MainMenu1* mainMenu; // Èñïîëüçóåì îáû÷íûé óêàçàòåëü
-		Video* video;
 
 	public:
 		MyForm() {
 			InitializeComponent();
 			mainMenu = new MainMenu1; // Ñîçäàåì ýêçåìïëÿð MainMenu1
 			mainMenu->AddOptions(); // Äîáàâëÿåì îïöèè
-			video = new Video;
-			int k;
-			video->ChooseOption(k);
 		}
 
 		~MyForm() {

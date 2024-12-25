@@ -24,10 +24,7 @@ std::string Video::ChooseOption(int k) {
         }
 
         if (!videoFiles.empty()) {
-            std::wstring wFirstVideoFile = std::wstring(videoFiles[0].begin(), videoFiles[0].end());
-            MessageBoxW(NULL, wFirstVideoFile.c_str(), L"Первое найденное видео", MB_OK);
             std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[0];
-            MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
             return selectedVideo;
         }
         else {
@@ -40,25 +37,23 @@ std::string Video::chooseRandomVideo() {
     if (videoFiles.empty()) return ""; // Проверка на пустой вектор
 
     int totalVideos = videoFiles.size();
-    int randomIndex;
+    int randomIndex=0;
     bool allow;
+    
 
     do {
         randomIndex = rand() % totalVideos; // Генерация случайного индекса
         allow = true;
 
-        for (int i = 0; i <4; i++) { // Проверка на уникальность
-            if (LastVid[i] == videoFiles[randomIndex]) {
+            if (LastVid == videoFiles[randomIndex] || BeforeLastVid == videoFiles[randomIndex]) {
                 allow = false; // Если видео уже было, пробуем снова
-                break;
             }
-        }
+
     } while (!allow);
 
-    LastVid[lastVidIndex] = videoFiles[randomIndex]; // Сохраняем выбранное видео
-    lastVidIndex = (lastVidIndex + 1) % 3; // Увеличиваем индекс и обнуляем его при достижении 4
 
     std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[randomIndex]; // Убираем '*' из folderPath
-    MessageBoxA(NULL, selectedVideo.c_str(), "Выбранное видео", MB_OK);
+    BeforeLastVid = LastVid;
+    LastVid = selectedVideo;
     return selectedVideo;
 }
