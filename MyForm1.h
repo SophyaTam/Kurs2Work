@@ -2,6 +2,7 @@
 #include "Video.h"
 #include <comdef.h>
 #include "Voice.h"
+#include "CustomProgressBar.h"
 #include "Advert.h"
 #include <string>
 #include "Stop.h"
@@ -29,6 +30,7 @@ namespace Kurs2Work {
 		Voice* voice; // Указатель на класс Voice
 		Stop* stop;   // Указатель на класс Stop
 		Advert* advert; // Указатель на класс Advert
+		CustomProgressBar^ bar;
 		int flag; // Флаг для управления рекламой
 		int timerflag;
 		int progressClick = 0;
@@ -50,6 +52,7 @@ namespace Kurs2Work {
 			voice = new Voice(); // Инициализация объекта Voice
 			stop = new Stop();   // Инициализация объекта Stop
 			advert = new Advert(); // Инициализация объекта Advert
+			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1);
 			flag = 0; // Изначально флаг рекламы выключен
 			isAdPlaying = false; // Изначально реклама не воспроизводится
 			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
@@ -63,6 +66,7 @@ namespace Kurs2Work {
 			voice = new Voice(); // Инициализация объекта Voice
 			stop = new Stop();   // Инициализация объекта Stop
 			advert = new Advert(); // Инициализация объекта Advert
+			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1);
 			flag = 0; // Изначально флаг рекламы выключен
 			isAdPlaying = false; // Изначально реклама не воспроизводится
 			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 255, 255);
@@ -78,6 +82,7 @@ namespace Kurs2Work {
 			delete voice; // Освобождаем память
 			delete stop;  // Освобождаем память
 			delete advert; // Освобождаем память
+			delete bar;
 		}
 
 	private: AxWMPLib::AxWindowsMediaPlayer^ axWindowsMediaPlayer2;
@@ -311,6 +316,7 @@ namespace Kurs2Work {
 			axWindowsMediaPlayer2->URL = managedVideoFile;
 			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
 				axWindowsMediaPlayer2->Ctlcontrols->play();
+				axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
 			}
 			else {
 				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
@@ -327,42 +333,6 @@ namespace Kurs2Work {
 		timer1->Start();
 	}
 
-		   void ProgressBarLoad() {
-			   // Устанавливаем начальное время в LabelStart
-			   labelStart->Text = "00:00";
-
-			   // Проверяем, что текущая медиа существует
-			   if (axWindowsMediaPlayer2->currentMedia != nullptr) {
-				   // Получаем длительность видео
-				   double duration = axWindowsMediaPlayer2->currentMedia->duration;
-
-				   // Проверяем, что длительность больше нуля
-				   if (duration > 0) {
-					   int minutes = static_cast<int>(duration) / 60; // Получаем минуты
-					   int seconds = static_cast<int>(duration) % 60; // Получаем секунды
-
-					   // Форматируем строку для LabelStop
-					   System::String^ durationString = System::String::Format("{0:D2}:{1:D2}", minutes, seconds);
-					   labelStop->Text = durationString;
-
-					   // Устанавливаем максимальное значение прогресс-бара
-					   progressBar1->Maximum = static_cast<int>(duration);
-					   progressBar1->Value = 0; // Начальное значение прогресс-бара
-
-					   // Запускаем таймер для обновления прогресс-бара
-					   timer1->Start(); // Предполагается, что у вас есть таймер, который будет обновлять прогресс
-				   }
-				   else {
-					   labelStop->Text = "00:00"; // Если длительность не определена, устанавливаем текст по умолчанию
-					   progressBar1->Value = 0; // Устанавливаем значение прогресс-бара в 0
-				   }
-			   }
-			   else {
-				   labelStop->Text = "00:00"; // Если текущая медиа не установлена, устанавливаем текст по умолчанию
-				   progressBar1->Value = 0; // Устанавливаем значение прогресс-бара в 0
-			   }
-		   }
-
 		   // Обработчик таймера для обновления прогресс-бара
 
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
@@ -376,7 +346,7 @@ namespace Kurs2Work {
 		this->progressBar1->Visible = false;
 		this->labelStart->Visible = false;
 		this->labelStop->Visible = false;
-		ProgressBarLoad();
+		bar->ProgressBarLoad();
 		button_Progress->Text = ">";
 		progressClick = 0;
 
@@ -407,6 +377,7 @@ namespace Kurs2Work {
 			   try {
 				   axWindowsMediaPlayer2->URL = managedVideoFile;
 				   if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+					   axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
 					   axWindowsMediaPlayer2->Ctlcontrols->play();
 					   isAdPlaying = true;
 
@@ -456,7 +427,7 @@ private: void PlaySecondVideo() {
 	this->progressBar1->Visible = false;
 	this->labelStart->Visible = false;
 	this->labelStop->Visible = false;
-	ProgressBarLoad();
+	bar->ProgressBarLoad();
 	// Здесь вы можете указать путь к вашему второму видео
 	std::string videoFile = video->chooseRandomVideo(); // Предполагается, что video - это объект, который выбирает второе видео
 
@@ -471,6 +442,7 @@ private: void PlaySecondVideo() {
 		try {
 			axWindowsMediaPlayer2->URL = secondVideoFile; // Устанавливаем URL второго видео
 			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+				axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
 				axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение второго видео
 			}
 			else {
@@ -514,6 +486,7 @@ private: void PlaySecondVideo() {
 		}
 	}
 		   private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
+			   axWindowsMediaPlayer2->Ctlcontrols->stop();
 			   this->Hide();
 			   obj->Show();
 		   }
@@ -541,7 +514,7 @@ private: System::Void button_Progress_Click(System::Object^ sender, System::Even
 		this->progressBar1->Visible = true;
 		this->labelStart->Visible = true;
 		this->labelStop->Visible = true;
-		ProgressBarLoad();
+		bar->ProgressBarLoad();
 		button_Progress->Text = "<";
 		progressClick = 1;
 	}
@@ -549,7 +522,7 @@ private: System::Void button_Progress_Click(System::Object^ sender, System::Even
 		this->progressBar1->Visible = false;
 		this->labelStart->Visible = false;
 		this->labelStop->Visible = false;
-		ProgressBarLoad();
+		bar->ProgressBarLoad();
 		button_Progress->Text = ">";
 		progressClick = 0;
 	}

@@ -123,6 +123,7 @@
     <ClCompile Include="MainMenu1.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="MyForm1.cpp" />
+    <ClCompile Include="CustomProgressBar.cpp" />
     <ClCompile Include="Stop.cpp" />
     <ClCompile Include="Video.cpp" />
     <ClCompile Include="Voice.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="MyForm1.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="CustomProgressBar.h" />
     <ClInclude Include="Stop.h" />
     <ClInclude Include="Video.h" />
     <ClInclude Include="Voice.h" />

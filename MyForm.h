@@ -19,13 +19,13 @@ namespace Kurs2Work {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
-		MainMenu1* mainMenu; // Èñïîëüçóåì îáû÷íûé óêàçàòåëü
+		MainMenu1* mainMenu; 
 
 	public:
 		MyForm() {
 			InitializeComponent();
-			mainMenu = new MainMenu1; // Ñîçäàåì ýêçåìïëÿð MainMenu1
-			mainMenu->AddOptions(); // Äîáàâëÿåì îïöèè
+			mainMenu = new MainMenu1; 
+			mainMenu->AddOptions(); 
 		}
 
 		~MyForm() {
@@ -63,7 +63,7 @@ namespace Kurs2Work {
 			// 
 			this->button1->BackColor = System::Drawing::Color::MediumSlateBlue;
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Mistral", 12, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+			this->button1->Font = (gcnew System::Drawing::Font(L"Segoe Print", 12, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->button1->Location = System::Drawing::Point(314, 60);
 			this->button1->Name = L"button1";
@@ -181,25 +181,25 @@ namespace Kurs2Work {
 		   }
 
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		int n = this->button1->TabIndex + 1; // Óáåäèòåñü, ÷òî âû èñïîëüçóåòå ïðàâèëüíûé èíäåêñ
-		std::string optionText = mainMenu->AddOptionsInput(n); // Ïîëó÷àåì òåêñò îïöèè
-		this->button1->Text = msclr::interop::marshal_as<System::String^>(optionText); // Ïðåîáðàçóåì std::string â System::String^
+		int n = this->button1->TabIndex + 1; 
+		std::string optionText = mainMenu->AddOptionsInput(n); 
+		this->button1->Text = msclr::interop::marshal_as<System::String^>(optionText); 
 
-		int n1 = this->button2->TabIndex + 1; // Èñïîëüçóåì ïðàâèëüíûé èíäåêñ äëÿ button2
-		std::string optionText1 = mainMenu->AddOptionsInput(n1); // Ïîëó÷àåì òåêñò îïöèè äëÿ button2
-		this->button2->Text = msclr::interop::marshal_as<System::String^>(optionText1); // Ïðåîáðàçóåì std::string â System::String^
+		int n1 = this->button2->TabIndex + 1; 
+		std::string optionText1 = mainMenu->AddOptionsInput(n1); 
+		this->button2->Text = msclr::interop::marshal_as<System::String^>(optionText1); 
 
-		int n2 = this->button3->TabIndex + 1; // Èñïîëüçóåì ïðàâèëüíûé èíäåêñ äëÿ button3
-		std::string optionText2 = mainMenu->AddOptionsInput(n2); // Ïîëó÷àåì òåêñò îïöèè äëÿ button3
-		this->button3->Text = msclr::interop::marshal_as<System::String^>(optionText2); // Ïðåîáðàçóåì std::string â System::String^
+		int n2 = this->button3->TabIndex + 1; 
+		std::string optionText2 = mainMenu->AddOptionsInput(n2); 
+		this->button3->Text = msclr::interop::marshal_as<System::String^>(optionText2); 
 
-		int n3 = this->button4->TabIndex + 1; // Èñïîëüçóåì ïðàâèëüíûé èíäåêñ äëÿ button4
-		std::string optionText3 = mainMenu->AddOptionsInput(n3); // Ïîëó÷àåì òåêñò îïöèè äëÿ button4
-		this->button4->Text = msclr::interop::marshal_as<System::String^>(optionText3); // Ïðåîáðàçóåì std::string â System::String^
+		int n3 = this->button4->TabIndex + 1; 
+		std::string optionText3 = mainMenu->AddOptionsInput(n3); 
+		this->button4->Text = msclr::interop::marshal_as<System::String^>(optionText3); 
 
-		int n4 = this->button5->TabIndex + 1; // Èñïîëüçóåì ïðàâèëüíûé èíäåêñ äëÿ button5
-		std::string optionText4 = mainMenu->AddOptionsInput(n4); // Ïîëó÷àåì òåêñò îïöèè äëÿ button5
-		this->button5->Text = msclr::interop::marshal_as<System::String^>(optionText4); // Ïðåîáðàçóåì std::string â System::String^
+		int n4 = this->button5->TabIndex + 1; 
+		std::string optionText4 = mainMenu->AddOptionsInput(n4); 
+		this->button5->Text = msclr::interop::marshal_as<System::String^>(optionText4);
 
 		std::string optionText5 = mainMenu->WelcomeText();
 		this->label2->Text = msclr::interop::marshal_as<System::String^>(optionText5);
