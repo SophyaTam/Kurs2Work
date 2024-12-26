@@ -129,7 +129,7 @@ namespace Kurs2Work {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"MingLiU_HKSCS-ExtB", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label2->Location = System::Drawing::Point(211, 19);
+			this->label2->Location = System::Drawing::Point(189, 18);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(88, 23);
 			this->label2->TabIndex = 5;

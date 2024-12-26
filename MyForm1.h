@@ -35,6 +35,7 @@ namespace Kurs2Work {
 		int timerflag;
 		int progressClick = 0;
 		int stopBut = 0;
+		int dopadv=0;
 		bool isAdPlaying; // Флаг для отслеживания воспроизведения рекламы
 	private: System::Windows::Forms::ProgressBar^ progressBar1;
 	private: System::Windows::Forms::Label^ labelStart;
@@ -342,6 +343,7 @@ namespace Kurs2Work {
 		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
 	}
 	private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
+		dopadv = 1;
 		this->progressBar1->Visible = false;
 		this->labelStart->Visible = false;
 		this->labelStop->Visible = false;
@@ -385,9 +387,12 @@ private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) 
 					axWindowsMediaPlayer2->Ctlcontrols->stop();
 					timer1->Stop();
 					isAdPlaying = false;
-
+					
+					if (flag == 1 && dopadv == 0) {
+						StartVideoWithTimer();
+					}
 					// Запускаем следующее видео
-					PlaySecondVideo();
+					else { PlaySecondVideo(); }
 				}
 			}
 		}
