@@ -290,6 +290,34 @@ namespace Kurs2Work {
 
 		   }
 #pragma endregion
+		   private: System::Void LoadVideo(std::string videoFile) {
+			   if (videoFile.empty()) {
+				   MessageBoxA(NULL, "Не удалось выбрать видеофайл.", "Ошибка", MB_OK);
+				   return;
+			   }
+
+			   System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
+
+			   if (axWindowsMediaPlayer2 == nullptr) {
+				   MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
+				   return;
+			   }
+
+			   try {
+				   axWindowsMediaPlayer2->URL = managedVideoFile;
+				   if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
+					   axWindowsMediaPlayer2->Ctlcontrols->play();
+					   axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
+				   }
+				   else {
+					   MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
+				   }
+			   }
+			   catch (const std::exception& e) {
+				   std::cerr << "Произошла ошибка: " << e.what() << std::endl;
+				   MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
+			   }
+		   }
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 
 		if (video == nullptr) {
@@ -299,33 +327,7 @@ namespace Kurs2Work {
 
 		video->ChooseOption(globalOption);
 		std::string videoFile = video->chooseRandomVideo();
-
-		if (videoFile.empty()) {
-			MessageBoxA(NULL, "Не удалось выбрать видеофайл.", "Ошибка", MB_OK);
-			return;
-		}
-
-		System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
-
-		if (axWindowsMediaPlayer2 == nullptr) {
-			MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
-			return;
-		}
-
-		try {
-			axWindowsMediaPlayer2->URL = managedVideoFile;
-			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
-				axWindowsMediaPlayer2->Ctlcontrols->play();
-				axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
-			}
-			else {
-				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
-			}
-		}
-		catch (const std::exception& e) {
-			std::cerr << "Произошла ошибка: " << e.what() << std::endl;
-			MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
-		}
+		LoadVideo(videoFile);
 		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(54);
 		trackBar1->Value = 54;
 		percent->Text = "54%";
@@ -358,38 +360,9 @@ namespace Kurs2Work {
 		   void StartVideoWithTimer() {
 			   advert->ChooseOption();
 			   std::string videoFile = advert->chooseRandomVideo1();
-
-			   if (videoFile.empty()) {
-				   MessageBoxA(NULL, "Не удалось выбрать рекламу.", "Ошибка", MB_OK);
-				   return;
-			   }
-
-			   System::String^ managedVideoFile = gcnew System::String(videoFile.c_str());
-
-			   if (axWindowsMediaPlayer2 == nullptr) {
-				   MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
-				   return;
-			   }
-
-			   try {
-				   axWindowsMediaPlayer2->URL = managedVideoFile;
-				   if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
-					   axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
-					   axWindowsMediaPlayer2->Ctlcontrols->play();
-					   isAdPlaying = true;
-
-					   // Запускаем таймер
-					   timer1->Start();
-				   }
-				   else {
-					   MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
-				   }
-			   }
-			   catch (const std::exception& e) {
-				   MessageBoxA(NULL, "Произошла ошибка при установке URL.", "Ошибка", MB_OK);
-			   }
+			   LoadVideo(videoFile);
+			   timer1->Start();
 		   }
-
 private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
 	// Проверяем, что текущая медиа существует и воспроизводится
 	if (axWindowsMediaPlayer2->currentMedia != nullptr) {
@@ -427,33 +400,7 @@ private: void PlaySecondVideo() {
 	bar->ProgressBarLoad();
 	// Здесь вы можете указать путь к вашему второму видео
 	std::string videoFile = video->chooseRandomVideo(); // Предполагается, что video - это объект, который выбирает второе видео
-
-	if (videoFile.empty()) {
-		MessageBoxA(NULL, "Не удалось выбрать второе видео.", "Ошибка", MB_OK);
-		return;
-	}
-
-	System::String^ secondVideoFile = gcnew System::String(videoFile.c_str());
-
-	if (axWindowsMediaPlayer2 != nullptr) {
-		try {
-			axWindowsMediaPlayer2->URL = secondVideoFile; // Устанавливаем URL второго видео
-			if (axWindowsMediaPlayer2->Ctlcontrols != nullptr) {
-				axWindowsMediaPlayer2->settings->setMode("stretchToFit", true);
-				axWindowsMediaPlayer2->Ctlcontrols->play(); // Запускаем воспроизведение второго видео
-			}
-			else {
-				MessageBoxA(NULL, "Ctlcontrols не инициализирован.", "Ошибка", MB_OK);
-			}
-		}
-		catch (const std::exception& e) {
-			std::cerr << "Произошла ошибка: " << e.what() << std::endl;
-			MessageBoxA(NULL, "Произошла ошибка при установке URL второго видео.", "Ошибка", MB_OK);
-		}
-	}
-	else {
-		MessageBoxA(NULL, "axWindowsMediaPlayer2 не инициализирован.", "Ошибка", MB_OK);
-	}
+	LoadVideo(videoFile);
 	isAdPlaying = true;
 	timer1->Start();
 }
@@ -482,7 +429,7 @@ private: void PlaySecondVideo() {
 			stopBut = 0;
 		}
 	}
-		   private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void buttonExit_Click_1(System::Object^ sender, System::EventArgs^ e) {
 			   axWindowsMediaPlayer2->Ctlcontrols->stop();
 			   this->Hide();
 			   obj->Show();
