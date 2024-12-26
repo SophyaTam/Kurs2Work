@@ -52,7 +52,7 @@ namespace Kurs2Work {
 			voice = new Voice(); // Инициализация объекта Voice
 			stop = new Stop();   // Инициализация объекта Stop
 			advert = new Advert(); // Инициализация объекта Advert
-			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1);
+			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1, obj);
 			flag = 0; // Изначально флаг рекламы выключен
 			isAdPlaying = false; // Изначально реклама не воспроизводится
 			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
@@ -66,7 +66,7 @@ namespace Kurs2Work {
 			voice = new Voice(); // Инициализация объекта Voice
 			stop = new Stop();   // Инициализация объекта Stop
 			advert = new Advert(); // Инициализация объекта Advert
-			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1);
+			bar = gcnew CustomProgressBar(axWindowsMediaPlayer2, labelStart, labelStop, progressBar1, timer1, obj);
 			flag = 0; // Изначально флаг рекламы выключен
 			isAdPlaying = false; // Изначально реклама не воспроизводится
 			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 255, 255);
@@ -332,9 +332,6 @@ namespace Kurs2Work {
 		isAdPlaying = true;
 		timer1->Start();
 	}
-
-		   // Обработчик таймера для обновления прогресс-бара
-
 	private: System::Void trackBar1_Scroll(System::Object^ sender, System::EventArgs^ e) {
 		// Получаем текущее значение TrackBar
 		int value = trackBar1->Value;
@@ -491,22 +488,7 @@ private: void PlaySecondVideo() {
 			   obj->Show();
 		   }
 private: System::Void progressBar1_Click(System::Object^ sender, System::EventArgs^ e) {
-	// Получаем текущее положение курсора на ProgressBar
-	int mouseX = System::Windows::Forms::Cursor::Position.X - progressBar1->Location.X - this->Location.X;
-	int progressBarWidth = progressBar1->Width;
-
-	// Вычисляем новое значение для прогресс-бара
-	if (mouseX >= 0 && mouseX <= progressBarWidth) {
-		int newValue = static_cast<int>((static_cast<double>(mouseX) / progressBarWidth) * progressBar1->Maximum);
-		progressBar1->Value = newValue;
-
-		// Устанавливаем новую позицию воспроизведения в axWindowsMediaPlayer2
-		if (axWindowsMediaPlayer2->currentMedia != nullptr) {
-			double duration = axWindowsMediaPlayer2->currentMedia->duration;
-			double newPosition = (newValue / static_cast<double>(progressBar1->Maximum)) * duration;
-			axWindowsMediaPlayer2->Ctlcontrols->currentPosition = newPosition;
-		}
-	}
+	bar->ChangeVid();
 }
 private: System::Void button_Progress_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (progressClick == 0)

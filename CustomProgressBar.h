@@ -9,8 +9,10 @@ private:
     Label^ labelStop;  // ”казатель на Label дл€ конца
     ProgressBar^ progressBar; // ”казатель на ProgressBar
     Timer^ timer; // ”казатель на Timer
+    Form^ parentForm; // ”казатель на родительскую форму
 
 public:
-    CustomProgressBar(AxWMPLib::AxWindowsMediaPlayer^ player, Label^ startLabel, Label^ stopLabel, ProgressBar^ progressBarControl, Timer^ timerControl);
+    CustomProgressBar(AxWMPLib::AxWindowsMediaPlayer^ player, Label^ startLabel, Label^ stopLabel, ProgressBar^ progressBarControl, Timer^ timerControl, Form^ form);
     void ProgressBarLoad();
+    void ChangeVid();
 };
