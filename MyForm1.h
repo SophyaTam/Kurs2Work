@@ -52,7 +52,7 @@ namespace Kurs2Work {
 			advert = new Advert(); // Инициализация объекта Advert
 			flag = 0; // Изначально флаг рекламы выключен
 			isAdPlaying = false; // Изначально реклама не воспроизводится
-			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 255, 255);
+			this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(255, 192, 192); // Светло-красный
 		}
 
 		MyForm1(Form^ obj1)
@@ -121,25 +121,27 @@ namespace Kurs2Work {
 			   this->axWindowsMediaPlayer2->OcxState = (cli::safe_cast<System::Windows::Forms::AxHost::State^>(resources->GetObject(L"axWindowsMediaPlayer2.OcxState")));
 			   this->axWindowsMediaPlayer2->Size = System::Drawing::Size(1043, 635);
 			   this->axWindowsMediaPlayer2->TabIndex = 0;
-			   this->axWindowsMediaPlayer2->Enter += gcnew System::EventHandler(this, &MyForm1::axWindowsMediaPlayer2_Click_1);
 			   // 
 			   // buttonStop
 			   // 
+			   this->buttonStop->BackColor = System::Drawing::Color::Teal;
+			   this->buttonStop->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			   this->buttonStop->Location = System::Drawing::Point(1080, 41);
 			   this->buttonStop->Name = L"buttonStop";
-			   this->buttonStop->Size = System::Drawing::Size(75, 23);
+			   this->buttonStop->Size = System::Drawing::Size(98, 26);
 			   this->buttonStop->TabIndex = 1;
 			   this->buttonStop->Text = L"Стоп";
-			   this->buttonStop->UseVisualStyleBackColor = true;
+			   this->buttonStop->UseVisualStyleBackColor = false;
 			   this->buttonStop->Click += gcnew System::EventHandler(this, &MyForm1::buttonStop_Click);
 			   // 
 			   // buttonAdvert
 			   // 
 			   this->buttonAdvert->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				   static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			   this->buttonAdvert->Location = System::Drawing::Point(1080, 87);
+			   this->buttonAdvert->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			   this->buttonAdvert->Location = System::Drawing::Point(1080, 83);
 			   this->buttonAdvert->Name = L"buttonAdvert";
-			   this->buttonAdvert->Size = System::Drawing::Size(75, 23);
+			   this->buttonAdvert->Size = System::Drawing::Size(98, 24);
 			   this->buttonAdvert->TabIndex = 2;
 			   this->buttonAdvert->Text = L"Реклама";
 			   this->buttonAdvert->UseVisualStyleBackColor = false;
@@ -147,22 +149,26 @@ namespace Kurs2Work {
 			   // 
 			   // buttonExit
 			   // 
+			   this->buttonExit->BackColor = System::Drawing::Color::Teal;
+			   this->buttonExit->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			   this->buttonExit->Location = System::Drawing::Point(1103, 604);
 			   this->buttonExit->Name = L"buttonExit";
 			   this->buttonExit->Size = System::Drawing::Size(75, 23);
 			   this->buttonExit->TabIndex = 3;
 			   this->buttonExit->Text = L"Назад";
-			   this->buttonExit->UseVisualStyleBackColor = true;
+			   this->buttonExit->UseVisualStyleBackColor = false;
 			   this->buttonExit->Click += gcnew System::EventHandler(this, &MyForm1::buttonExit_Click_1);
 			   // 
 			   // buttonNext
 			   // 
-			   this->buttonNext->Location = System::Drawing::Point(1080, 137);
+			   this->buttonNext->BackColor = System::Drawing::Color::Teal;
+			   this->buttonNext->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			   this->buttonNext->Location = System::Drawing::Point(1080, 128);
 			   this->buttonNext->Name = L"buttonNext";
-			   this->buttonNext->Size = System::Drawing::Size(98, 23);
+			   this->buttonNext->Size = System::Drawing::Size(98, 29);
 			   this->buttonNext->TabIndex = 4;
 			   this->buttonNext->Text = L"Следующий";
-			   this->buttonNext->UseVisualStyleBackColor = true;
+			   this->buttonNext->UseVisualStyleBackColor = false;
 			   this->buttonNext->Click += gcnew System::EventHandler(this, &MyForm1::buttonNext_Click);
 			   // 
 			   // trackBar1
@@ -177,21 +183,24 @@ namespace Kurs2Work {
 			   // Volume
 			   // 
 			   this->Volume->AutoSize = true;
+			   this->Volume->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				   static_cast<System::Byte>(204)));
+			   this->Volume->ForeColor = System::Drawing::SystemColors::GradientActiveCaption;
 			   this->Volume->Location = System::Drawing::Point(1077, 185);
 			   this->Volume->Name = L"Volume";
-			   this->Volume->Size = System::Drawing::Size(39, 16);
+			   this->Volume->Size = System::Drawing::Size(48, 20);
 			   this->Volume->TabIndex = 6;
 			   this->Volume->Text = L"Звук";
 			   // 
 			   // percent
 			   // 
 			   this->percent->AutoSize = true;
+			   this->percent->ForeColor = System::Drawing::SystemColors::GradientActiveCaption;
 			   this->percent->Location = System::Drawing::Point(1089, 254);
 			   this->percent->Name = L"percent";
 			   this->percent->Size = System::Drawing::Size(26, 16);
 			   this->percent->TabIndex = 7;
 			   this->percent->Text = L"0%";
-			   this->percent->Click += gcnew System::EventHandler(this, &MyForm1::percent_Click);
 			   // 
 			   // timer1
 			   // 
@@ -200,8 +209,12 @@ namespace Kurs2Work {
 			   // 
 			   // progressBar1
 			   // 
+			   this->progressBar1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				   static_cast<System::Int32>(static_cast<System::Byte>(224)));
 			   this->progressBar1->Cursor = System::Windows::Forms::Cursors::Default;
+			   this->progressBar1->ForeColor = System::Drawing::Color::Green;
 			   this->progressBar1->Location = System::Drawing::Point(34, 625);
+			   this->progressBar1->Maximum = 1000000;
 			   this->progressBar1->Name = L"progressBar1";
 			   this->progressBar1->Size = System::Drawing::Size(982, 10);
 			   this->progressBar1->TabIndex = 8;
@@ -211,6 +224,7 @@ namespace Kurs2Work {
 			   // labelStart
 			   // 
 			   this->labelStart->AutoSize = true;
+			   this->labelStart->ForeColor = System::Drawing::SystemColors::GradientActiveCaption;
 			   this->labelStart->Location = System::Drawing::Point(-1, 619);
 			   this->labelStart->Name = L"labelStart";
 			   this->labelStart->Size = System::Drawing::Size(44, 16);
@@ -221,13 +235,13 @@ namespace Kurs2Work {
 			   // labelStop
 			   // 
 			   this->labelStop->AutoSize = true;
+			   this->labelStop->ForeColor = System::Drawing::SystemColors::GradientActiveCaption;
 			   this->labelStop->Location = System::Drawing::Point(1012, 619);
 			   this->labelStop->Name = L"labelStop";
 			   this->labelStop->Size = System::Drawing::Size(44, 16);
 			   this->labelStop->TabIndex = 10;
 			   this->labelStop->Text = L"label1";
 			   this->labelStop->Visible = false;
-			   this->labelStop->Click += gcnew System::EventHandler(this, &MyForm1::labelStop_Click);
 			   // 
 			   // button_Progress
 			   // 
@@ -236,8 +250,7 @@ namespace Kurs2Work {
 			   this->button_Progress->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
 			   this->button_Progress->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				   static_cast<System::Byte>(204)));
-			   this->button_Progress->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
-				   static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			   this->button_Progress->ForeColor = System::Drawing::Color::Teal;
 			   this->button_Progress->Location = System::Drawing::Point(996, 579);
 			   this->button_Progress->Name = L"button_Progress";
 			   this->button_Progress->Size = System::Drawing::Size(49, 37);
@@ -248,6 +261,8 @@ namespace Kurs2Work {
 			   // 
 			   // MyForm1
 			   // 
+			   this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				   static_cast<System::Int32>(static_cast<System::Byte>(64)));
 			   this->ClientSize = System::Drawing::Size(1190, 639);
 			   this->Controls->Add(this->button_Progress);
 			   this->Controls->Add(this->labelStop);
@@ -270,9 +285,6 @@ namespace Kurs2Work {
 
 		   }
 #pragma endregion
-	private: System::Void axWindowsMediaPlayer2_Click_1(System::Object^ sender, System::EventArgs^ e) {
-	}
-
 	private: System::Void MyForm1_Load(System::Object^ sender, System::EventArgs^ e) {
 
 		if (video == nullptr) {
@@ -359,8 +371,6 @@ namespace Kurs2Work {
 		// Обновляем текст Label
 		percent->Text = value.ToString() + "%";
 		axWindowsMediaPlayer2->settings->volume = voice->ChangeVoice(trackBar1->Value);
-	}
-	private: System::Void percent_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void buttonNext_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->progressBar1->Visible = false;
@@ -524,8 +534,6 @@ private: System::Void progressBar1_Click(System::Object^ sender, System::EventAr
 			axWindowsMediaPlayer2->Ctlcontrols->currentPosition = newPosition;
 		}
 	}
-}
-private: System::Void labelStop_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void button_Progress_Click(System::Object^ sender, System::EventArgs^ e) {
 	if (progressClick == 0)
