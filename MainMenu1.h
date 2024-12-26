@@ -19,7 +19,7 @@ public:
 
 class DetectiveOption : public Option {
 public:
-    std::string GetName() const override { return "Детестивы"; }
+    std::string GetName() const override { return "Детективы"; }
 };
 
 class ComedyOption : public Option {

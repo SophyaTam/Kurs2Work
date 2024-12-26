@@ -37,23 +37,26 @@ std::string Video::chooseRandomVideo() {
     if (videoFiles.empty()) return ""; // Проверка на пустой вектор
 
     int totalVideos = videoFiles.size();
-    int randomIndex=0;
+    int randomIndex = 0;
     bool allow;
-    
 
     do {
         randomIndex = rand() % totalVideos; // Генерация случайного индекса
         allow = true;
 
-            if (LastVid == videoFiles[randomIndex] || BeforeLastVid == videoFiles[randomIndex]) {
-                allow = false; // Если видео уже было, пробуем снова
-            }
+        // Проверяем, не совпадает ли выбранное видео с последними двумя
+        if (LastVid == videoFiles[randomIndex] || BeforeLastVid == videoFiles[randomIndex]) {
+            allow = false; // Если видео уже было, пробуем снова
+        }
 
     } while (!allow);
 
-
+    // Формируем полный путь к видео
     std::string selectedVideo = std::string(folderPath.begin(), folderPath.end() - 1) + videoFiles[randomIndex]; // Убираем '*' из folderPath
+
+    // Обновляем последние выбранные видео
     BeforeLastVid = LastVid;
-    LastVid = selectedVideo;
+    LastVid = videoFiles[randomIndex]; // Сохраняем только имя видео, а не полный путь
+
     return selectedVideo;
 }
